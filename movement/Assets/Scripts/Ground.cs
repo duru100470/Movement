@@ -16,6 +16,9 @@ public class Ground : MonoBehaviour
 
     private List<TileHolder> arrangedTileHolderList;
 
+    [SerializeField]
+    private bool hasPower;
+
     private void Awake()
     {
         commandList = new List<Action<Ground>>();
@@ -56,7 +59,8 @@ public class Ground : MonoBehaviour
 
     public bool CheckHasPowerSource()
     {
-        return entityList.Count != 0;
+        // return entityList.Count != 0;
+        return hasPower;
     }
 
     public virtual void MoveTileHolder(Coordinate pos)
@@ -106,7 +110,9 @@ public class Ground : MonoBehaviour
         for(int x = -1; x < 2; x++)
             for(int y = -1; y < 2; y++)
             {
-                var tempTileHolder = TileManager.Inst.TileHolderDict[new Coordinate(x, y)];
+                TileHolder tempTileHolder;
+                if (!TileManager.Inst.TileHolderDict.TryGetValue(new Coordinate(x, y), out tempTileHolder))
+                    continue;
                 var tempGround = tempTileHolder.GetComponentInParent<Ground>();
 
                 if(tempGround != this) adjacentGrounds.Add(tempGround);
@@ -117,14 +123,4 @@ public class Ground : MonoBehaviour
     }
 
     public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
-
-    // Code for debug
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Move(new Coordinate(0, 1));
-        }
-    }
-
 }

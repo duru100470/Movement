@@ -69,9 +69,18 @@ public class TurnManager : MonoBehaviour
         foreach(var obj in objList)
         {
             var ground = obj.GetComponent<Ground>();
+            ground.GenerateScript();
             groundRoutineList.Add(new KeyValuePair<Ground, IEnumerator>(ground, ground.RunScriptRoutine()));
         }
 
         groundRoutineList.OrderBy(x => x.Key.GetPriority());
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            StartRoutine();
+        }
     }
 }
