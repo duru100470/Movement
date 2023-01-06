@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 1204633327}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 1723295746}
   - component: {fileID: 1723295745}
   m_Layer: 0
-  m_Name: GroundManager
+  m_Name: TurnManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2796f238de242b34e91584e49e8ad855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: {fileID: 1204633327}
+  groundList: []
 --- !u!4 &1723295746
 Transform:
   m_ObjectHideFlags: 0
