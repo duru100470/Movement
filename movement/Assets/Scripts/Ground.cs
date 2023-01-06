@@ -16,6 +16,7 @@ public class Ground : MonoBehaviour
 
     private List<TileHolder> arrangedTileHolderList;
 
+    private Queue<Coordinate> mineAndLaserPosition;
     private void Awake()
     {
         commandList = new List<Action<Ground>>();
@@ -45,7 +46,15 @@ public class Ground : MonoBehaviour
         arrangedTileHolderList = tileHolderList.OrderByDescending(x => x.Pos.Y).ThenBy(x => x.Pos.X).ToList();
 
         foreach (TileHolder tileholder in arrangedTileHolderList) {
-            if (tileholder.CurTile != null) commandList.Add(tileholder.CurTile.RunCommand);
+            if (tileholder.CurTile != null)
+            {
+                if (tileholder.CurTile.TileType == TILE_TYPE.COMMAND) commandList.Add(tileholder.CurTile.RunCommand);
+                else if (tileholder.CurTile.TileType == TILE_TYPE.MINE_AND_LASER) {
+                    commandList.Add(tileholder.CurTile.RunCommand);
+                    mineAndLaserPosition.Enqueue(tileholder.Pos);
+                }
+                
+            }
         }
     }
 
@@ -121,10 +130,18 @@ public class Ground : MonoBehaviour
     // Code for debug
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Move(new Coordinate(0, 1));
-        }
+        
     }
 
+    public void OperateLaser(Coordinate pos) {
+        Coordinate laserPos = mineAndLaserPosition.Dequeue();
+
+        tileHolderList.RemoveAll(x => x.Pos.X == laserPos.X && x.Pos.Y > laserPos.Y);
+    }
+
+    public void OperateMine() {
+        Coordinate minePos = mineAndLaserPosition.Dequeue();
+
+        tileHolderList.RemoveAll(x => Coordinate.Distance(x.Pos, minePos) <= 1);
+    }
 }
