@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,45 @@ public class Ground : MonoBehaviour
     public List<TileHolder> TileHolderList => tileHolderList;
     protected List<Entity> entityList;
     public List<Entity> EntityList => entityList;
+    private List<Action<Ground>> commandList;
+    private int index = 0;
+
+    private void Awake()
+    {
+        commandList = new List<Action<Ground>>();
+    }
+
+    public IEnumerator RunScriptRoutine()
+    {
+        while(true)
+        {
+            for(int i = index; i < commandList.Count; i++)
+            {
+                commandList[i](this);
+                index++;
+                // 커맨드 실행 중 병합이나 파괴가 일어나면 Script를 새로 갱신해야함
+
+                yield return null;
+            }
+            index = 0;
+        }
+    }
+
+    public void GenerateScript()
+    {
+        // tileHolderList에서 commandList를 생성
+    }
+
+    public int GetPriority()
+    {
+        return 0;
+    }
+
+    public bool CheckHasPowerSource()
+    {
+        // Not Implemented
+        return true;
+    }
 
     public virtual void Move(Coordinate pos)
     {
@@ -18,8 +58,6 @@ public class Ground : MonoBehaviour
             tileHolder.Pos += pos;
             tileHolder.transform.position = Coordinate.CoordinatetoWorldPoint(tileHolder.Pos);
         }
-
-        MergeGround();
     }
 
     // 이 Ground와 Steel Ground간의 충돌체크
@@ -28,7 +66,7 @@ public class Ground : MonoBehaviour
         return false;
     }
 
-    protected virtual void MergeGround()
+    public void MergeGround()
     {
         var newGround = CheckGround();
 
