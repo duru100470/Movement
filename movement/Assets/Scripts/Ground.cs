@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Ground : MonoBehaviour
 {
@@ -13,6 +12,7 @@ public class Ground : MonoBehaviour
     public List<Entity> EntityList => entityList;
     private List<Action<Ground>> commandList;
     private int index = 0;
+    public bool IsDestroyed { get; set; } = false;
 
     private List<TileHolder> arrangedTileHolderList;
 
@@ -21,16 +21,15 @@ public class Ground : MonoBehaviour
 
     private void Awake()
     {
-        commandList = new List<Action<Ground>>();
         tileHolderList = GetComponentsInChildren<TileHolder>().ToList();
         entityList = GetComponentsInChildren<Entity>().ToList();
     }
 
     public IEnumerator RunScriptRoutine()
     {
-        while(true)
+        while (true)
         {
-            for(int i = index; i < commandList.Count; i++)
+            for (int i = index; i < commandList.Count; i++)
             {
                 commandList[i](this);
                 index++;
@@ -44,10 +43,13 @@ public class Ground : MonoBehaviour
 
     public void GenerateScript()
     {
+        commandList = new List<Action<Ground>>();
+
         // tileHolderList에서 commandList를 생성
         arrangedTileHolderList = tileHolderList.OrderByDescending(x => x.Pos.Y).ThenBy(x => x.Pos.X).ToList();
 
-        foreach (TileHolder tileholder in arrangedTileHolderList) {
+        foreach (TileHolder tileholder in arrangedTileHolderList)
+        {
             if (tileholder.CurTile != null) commandList.Add(tileholder.CurTile.RunCommand);
         }
     }
@@ -65,16 +67,27 @@ public class Ground : MonoBehaviour
 
     public virtual void MoveTileHolder(Coordinate pos)
     {
-        if(CheckCollision(pos)) return;
+        if (CheckCollision(pos)) return;
 
-        foreach(var tileHolder in tileHolderList)
+        Dictionary<Coordinate, TileHolder> newTileHolderDict = new Dictionary<Coordinate, TileHolder>();
+
+        foreach (var tileHolder in tileHolderList)
+        {
+            newTileHolderDict[tileHolder.Pos] = null;
+        }
+
+        foreach (var tileHolder in tileHolderList)
         {
             tileHolder.Pos += pos;
             tileHolder.transform.position = Coordinate.CoordinatetoWorldPoint(tileHolder.Pos);
+            newTileHolderDict[tileHolder.Pos] = tileHolder;
         }
+
+        TileManager.Inst.RefreshDict(newTileHolderDict);
     }
 
-    public virtual void MoveEntity(Coordinate pos) {
+    public virtual void MoveEntity(Coordinate pos)
+    {
         // Entity가 구현되면 사용 가능
 
         /*if (CheckCollision(pos)) return;
@@ -86,40 +99,31 @@ public class Ground : MonoBehaviour
         }*/
     }
 
+    public void MergeGround()
+    {
+        if (IsDestroyed) return;
+        var result = TileManager.Inst.GetTileHoldersDFS(tileHolderList[0].Pos);
+
+        if (result.Count <= tileHolderList.Count) return;
+
+        foreach (var tileHolder in result)
+        {
+            var ground = tileHolder.GetComponentInParent<Ground>();
+            if (this.gameObject != ground.gameObject)
+                ground.IsDestroyed = true;
+
+            tileHolder.gameObject.transform.SetParent(this.gameObject.transform);
+        }
+
+        tileHolderList = result;
+        hasPower = true;
+        GenerateScript();
+    }
+
     // 이 Ground와 Steel Ground간의 충돌체크
     private bool CheckCollision(Coordinate pos)
     {
         return false;
-    }
-
-    public void MergeGround()
-    {
-        var newGrounds = CheckGround();
-
-        if(newGrounds == null) return;
-
-        // 다른 Ground의 TileHolder를 이 Ground로 병합
-    }
-
-    // 이 Ground와 다른 Ground간의 인접체크
-    // 인접한 Ground가 있다면 그 Ground 리턴
-    private List<Ground> CheckGround()
-    {
-        List<Ground> adjacentGrounds = new List<Ground>();
-
-        for(int x = -1; x < 2; x++)
-            for(int y = -1; y < 2; y++)
-            {
-                TileHolder tempTileHolder;
-                if (!TileManager.Inst.TileHolderDict.TryGetValue(new Coordinate(x, y), out tempTileHolder))
-                    continue;
-                var tempGround = tempTileHolder.GetComponentInParent<Ground>();
-
-                if(tempGround != this) adjacentGrounds.Add(tempGround);
-            }
-
-        if (adjacentGrounds.Count == 0) return null;
-        else return adjacentGrounds;
     }
 
     public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
