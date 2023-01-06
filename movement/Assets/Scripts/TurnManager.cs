@@ -8,11 +8,6 @@ public class TurnManager : MonoBehaviour
     [SerializeField]
     private List<KeyValuePair<Ground, IEnumerator>> groundRoutineList;
 
-    private void Start()
-    {
-        GetList();
-    }
-
     public void StartRoutine()
     {
         GetList();

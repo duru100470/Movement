@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Ground : MonoBehaviour
 {
-    protected List<TileHolder> tileHolderList;
+    private List<TileHolder> tileHolderList;
     public List<TileHolder> TileHolderList => tileHolderList;
-    protected List<Entity> entityList;
+    private List<Entity> entityList;
     public List<Entity> EntityList => entityList;
     private List<Action<Ground>> commandList;
     private int index = 0;
@@ -15,6 +16,8 @@ public class Ground : MonoBehaviour
     private void Awake()
     {
         commandList = new List<Action<Ground>>();
+        tileHolderList = GetComponentsInChildren<TileHolder>().ToList();
+        entityList = GetComponentsInChildren<Entity>().ToList();
     }
 
     public IEnumerator RunScriptRoutine()
@@ -45,8 +48,7 @@ public class Ground : MonoBehaviour
 
     public bool CheckHasPowerSource()
     {
-        // Not Implemented
-        return true;
+        return entityList.Count != 0;
     }
 
     public virtual void Move(Coordinate pos)
@@ -70,6 +72,8 @@ public class Ground : MonoBehaviour
     {
         var newGround = CheckGround();
 
+        if(newGround == null) return;
+
         // 다른 Ground의 TileHolder를 이 Ground로 병합
     }
 
@@ -78,5 +82,16 @@ public class Ground : MonoBehaviour
     private Ground CheckGround()
     {
         return null;
+    }
+
+    public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
+
+    // Code for debug
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Move(new Coordinate(0, 1));
+        }
     }
 }
