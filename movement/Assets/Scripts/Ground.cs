@@ -70,18 +70,30 @@ public class Ground : MonoBehaviour
 
     public void MergeGround()
     {
-        var newGround = CheckGround();
+        var newGrounds = CheckGround();
 
-        if(newGround == null) return;
+        if(newGrounds == null) return;
 
         // 다른 Ground의 TileHolder를 이 Ground로 병합
     }
 
     // 이 Ground와 다른 Ground간의 인접체크
     // 인접한 Ground가 있다면 그 Ground 리턴
-    private Ground CheckGround()
+    private List<Ground> CheckGround()
     {
-        return null;
+        List<Ground> adjacentGrounds = new List<Ground>();
+
+        for(int x = -1; x < 2; x++)
+            for(int y = -1; y < 2; y++)
+            {
+                var tempTileHolder = TileManager.Inst.TileHolderDict[new Coordinate(x, y)];
+                var tempGround = tempTileHolder.GetComponentInParent<Ground>();
+
+                if(tempGround != this) adjacentGrounds.Add(tempGround);
+            }
+
+        if (adjacentGrounds.Count == 0) return null;
+        else return adjacentGrounds;
     }
 
     public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileManager : MonoBehaviour
+public class TileManager : SingletonBehavior<TileManager>
 {
     private Dictionary<Coordinate, TileHolder> tileHolderDict;
     public Dictionary<Coordinate, TileHolder> TileHolderDict => tileHolderDict;
