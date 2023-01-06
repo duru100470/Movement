@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public enum TILE_ID
+public enum TILE_TYPE
 {
-    Debug
+    COMMAND,
+    WALL
 }
 
 [System.Serializable]

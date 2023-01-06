@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Ground : MonoBehaviour
 {
-    protected List<TileHolder> tileHolderList;
+    private List<TileHolder> tileHolderList;
     public List<TileHolder> TileHolderList => tileHolderList;
-    protected List<Entity> entityList;
+    private List<Entity> entityList;
     public List<Entity> EntityList => entityList;
     private List<Action<Ground>> commandList;
     private int index = 0;
@@ -15,6 +16,8 @@ public class Ground : MonoBehaviour
     private void Awake()
     {
         commandList = new List<Action<Ground>>();
+        tileHolderList = GetComponentsInChildren<TileHolder>().ToList();
+        entityList = GetComponentsInChildren<Entity>().ToList();
     }
 
     public IEnumerator RunScriptRoutine()
@@ -45,8 +48,7 @@ public class Ground : MonoBehaviour
 
     public bool CheckHasPowerSource()
     {
-        // Not Implemented
-        return true;
+        return entityList.Count != 0;
     }
 
     public virtual void Move(Coordinate pos)
@@ -68,15 +70,40 @@ public class Ground : MonoBehaviour
 
     public void MergeGround()
     {
-        var newGround = CheckGround();
+        var newGrounds = CheckGround();
+
+        if(newGrounds == null) return;
 
         // 다른 Ground의 TileHolder를 이 Ground로 병합
     }
 
     // 이 Ground와 다른 Ground간의 인접체크
     // 인접한 Ground가 있다면 그 Ground 리턴
-    private Ground CheckGround()
+    private List<Ground> CheckGround()
     {
-        return null;
+        List<Ground> adjacentGrounds = new List<Ground>();
+
+        for(int x = -1; x < 2; x++)
+            for(int y = -1; y < 2; y++)
+            {
+                var tempTileHolder = TileManager.Inst.TileHolderDict[new Coordinate(x, y)];
+                var tempGround = tempTileHolder.GetComponentInParent<Ground>();
+
+                if(tempGround != this) adjacentGrounds.Add(tempGround);
+            }
+
+        if (adjacentGrounds.Count == 0) return null;
+        else return adjacentGrounds;
+    }
+
+    public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
+
+    // Code for debug
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Move(new Coordinate(0, 1));
+        }
     }
 }
