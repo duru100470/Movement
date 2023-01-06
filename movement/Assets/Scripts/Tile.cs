@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class Tile : MonoBehaviour
 {
-    protected abstract void RunCommand(Ground ground);
+    public abstract void RunCommand(Ground ground);
 }

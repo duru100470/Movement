@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Ground : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class Ground : MonoBehaviour
     public List<Entity> EntityList => entityList;
     private List<Action<Ground>> commandList;
     private int index = 0;
+
+    private List<TileHolder> arrangedTileHolderList;
 
     private void Awake()
     {
@@ -36,6 +40,11 @@ public class Ground : MonoBehaviour
     public void GenerateScript()
     {
         // tileHolderList에서 commandList를 생성
+        arrangedTileHolderList = tileHolderList.OrderByDescending(x => x.Pos.Y).ThenBy(x => x.Pos.X).ToList();
+
+        foreach (TileHolder tileholder in arrangedTileHolderList) {
+            commandList.Add(tileholder.CurTile.RunCommand);
+        }
     }
 
     public int GetPriority()
@@ -49,7 +58,7 @@ public class Ground : MonoBehaviour
         return true;
     }
 
-    public virtual void Move(Coordinate pos)
+    public virtual void MoveTileHolder(Coordinate pos)
     {
         if(CheckCollision(pos)) return;
 
@@ -58,6 +67,18 @@ public class Ground : MonoBehaviour
             tileHolder.Pos += pos;
             tileHolder.transform.position = Coordinate.CoordinatetoWorldPoint(tileHolder.Pos);
         }
+    }
+
+    public virtual void MoveEntity(Coordinate pos) {
+        // Entity가 구현되면 사용 가능
+
+        /*if (CheckCollision(pos)) return;
+
+        foreach (var entity in EntityList)
+        {
+            entity.Pos += pos;
+            entity.transform.position = Coordinate.CoordinatetoWorldPoint(tileHolder.Pos);
+        }*/
     }
 
     // 이 Ground와 Steel Ground간의 충돌체크
@@ -79,4 +100,5 @@ public class Ground : MonoBehaviour
     {
         return null;
     }
+
 }
