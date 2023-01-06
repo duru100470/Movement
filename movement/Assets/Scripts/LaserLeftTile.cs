@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class LaserLeftTile : Tile
 {
-    public Coordinate direction = new(-1, 0);
     public override void RunCommand(Ground ground)
     {
-        ground.OperateLaser(direction);
+        ground.OperateLaser(3);
     }
 }
