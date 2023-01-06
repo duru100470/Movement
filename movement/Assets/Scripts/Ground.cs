@@ -20,9 +20,7 @@ public class Ground : MonoBehaviour
 
     private List<TileHolder> arrangedTileHolderList;
 
-    [SerializeField]
-    private bool hasPower;
-
+    private Queue<Coordinate> mineAndLaserPosition;
     private void Awake()
     {
         commandList = new List<Action<Ground>>();
@@ -60,13 +58,15 @@ public class Ground : MonoBehaviour
         // tileHolderList에서 commandList를 생성
         arrangedTileHolderList = tileHolderList.OrderByDescending(x => x.Pos.Y).ThenBy(x => x.Pos.X).ToList();
 
-        foreach (TileHolder tileholder in arrangedTileHolderList)
-        {
             if (tileholder.CurTile != null && tileholder.CurTile.TileType == TILE_TYPE.COMMAND)
             {
                 commandTileHolderList.Add(tileholder);
                 commandList.Add(tileholder.CurTile.RunCommand);
             }
+                else if (tileholder.CurTile.TileType == TILE_TYPE.MINE_AND_LASER) {
+                    commandList.Add(tileholder.CurTile.RunCommand);
+                    mineAndLaserPosition.Enqueue(tileholder.Pos);
+                }
         }
 
         if (curCmdTileHolder != null)

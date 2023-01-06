@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MineTile : Tile
+public class LaserLeftTile : Tile
 {
+    public Coordinate direction = new(-1, 0);
     public override void RunCommand(Ground ground)
     {
-        ground.OperateMine();
+        ground.OperateLaser(direction);
     }
 }

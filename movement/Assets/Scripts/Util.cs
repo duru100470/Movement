@@ -3,7 +3,8 @@ using UnityEngine;
 public enum TILE_TYPE
 {
     COMMAND,
-    WALL
+    WALL,
+    MINE_AND_LASER
 }
 
 [System.Serializable]
