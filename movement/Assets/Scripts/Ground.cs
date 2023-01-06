@@ -43,7 +43,7 @@ public class Ground : MonoBehaviour
         arrangedTileHolderList = tileHolderList.OrderByDescending(x => x.Pos.Y).ThenBy(x => x.Pos.X).ToList();
 
         foreach (TileHolder tileholder in arrangedTileHolderList) {
-            commandList.Add(tileholder.CurTile.RunCommand);
+            if (tileholder.CurTile != null) commandList.Add(tileholder.CurTile.RunCommand);
         }
     }
 
