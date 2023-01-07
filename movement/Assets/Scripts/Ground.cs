@@ -14,7 +14,7 @@ public class Ground : MonoBehaviour
     private List<Coordinate> destroyPositionList;
     public List<Coordinate> DestroyPositionList => destroyPositionList;
     public List<Entity> EntityList => entityList;
-    private List<Action<Ground>> commandList;
+    private List<Action<Ground, Coordinate>> commandList;
     private int index = 0;
     public bool IsDestroyed { get; set; } = false;
     [SerializeField]
@@ -26,14 +26,12 @@ public class Ground : MonoBehaviour
     private List<Tile> highlightCancelationBuffer;
     private List<TileHolder> arrangedTileHolderList;
     private List<Entity> arrangedPowerList;
-    private Queue<Coordinate> mineAndLaserPosition;
     private void Awake()
     {
-        commandList = new List<Action<Ground>>();
+        commandList = new List<Action<Ground, Coordinate>>();
         commandTileHolderList = new List<TileHolder>();
         tileHolderList = GetComponentsInChildren<TileHolder>().ToList();
         entityList = GetComponentsInChildren<Entity>().ToList();
-        mineAndLaserPosition = new Queue<Coordinate>();
         destroyPositionList = new List<Coordinate>();
         highlightCancelationBuffer = new List<Tile>();
     }
@@ -46,10 +44,15 @@ public class Ground : MonoBehaviour
 
             while (index < commandList.Count)
             {
+                if (commandList.Count == 0) yield break;
+
+                Debug.Log(index);
+                commandList[index](this, commandTileHolderList[index].Pos);
                 commandTileHolderList[index].CurTile.IsRunning = true;
-                commandList[index](this);
+                //commandList[index](this, commandTileHolderList[index].Pos);
 
                 yield return null;
+                if (commandList.Count == 0) yield break;
                 commandTileHolderList[index].CurTile.IsRunning = false;
 
                 for (int i = highlightCancelationBuffer.Count - 1; i >= 0; i--)
@@ -73,23 +76,16 @@ public class Ground : MonoBehaviour
 
         commandList.Clear();
         commandTileHolderList.Clear();
-        mineAndLaserPosition.Clear();
 
         // tileHolderList에서 commandList를 생성
         arrangedTileHolderList = tileHolderList.OrderByDescending(x => x.Pos.Y).ThenBy(x => x.Pos.X).ToList();
 
         foreach (var tileholder in arrangedTileHolderList)
         {
-            if (tileholder.CurTile != null && tileholder.CurTile.TileType == TILE_TYPE.COMMAND)
+            if (tileholder.CurTile != null && (tileholder.CurTile.TileType == TILE_TYPE.COMMAND || tileholder.CurTile.TileType == TILE_TYPE.GOAL))
             {
                 commandTileHolderList.Add(tileholder);
                 commandList.Add(tileholder.CurTile.RunCommand);
-            }
-            else if (tileholder.CurTile != null && tileholder.CurTile.TileType == TILE_TYPE.COMMAND)
-            {
-                commandTileHolderList.Add(tileholder);
-                commandList.Add(tileholder.CurTile.RunCommand);
-                mineAndLaserPosition.Enqueue(tileholder.Pos);
             }
         }
 
@@ -102,6 +98,7 @@ public class Ground : MonoBehaviour
         int priority;
         CheckHasPowerSource();
 
+        hasPower = CheckHasPowerSource();
         if (!hasPower) priority = Int32.MinValue;
         else
         {
@@ -168,7 +165,7 @@ public class Ground : MonoBehaviour
         TileManager.Inst.RefreshEntityDict();
     }
 
-    public void MergeGround()
+    /*public void MergeGround()
     {
         if (IsDestroyed || !IsMergeable) return;
         var result = TileManager.Inst.GetTileHoldersDFS(tileHolderList[0].Pos);
@@ -204,9 +201,92 @@ public class Ground : MonoBehaviour
         hasPower = true;
         CheckStageClear();
         GenerateScript();
+    } */
+
+    public void MergeGround()
+    {
+        if (!IsMergeable) return;
+        var endList = new List<TileHolder>();
+        var groundList = new List<List<TileHolder>>();
+        List<List<Entity>> entityListBuffer = new List<List<Entity>>();
+        for (int i = 0; i < tileHolderList.Count; i++)
+        {
+            if (tileHolderList[i].gameObject == null || endList.Contains(tileHolderList[i])) continue;
+            var result = TileManager.Inst.GetTileHoldersDFS(tileHolderList[i].Pos);
+            var entityResult = new List<Entity>();
+            groundList.Add(new List<TileHolder>());
+            foreach (var tileHolder in result)
+            {
+                endList.Add(tileHolder);
+                var ground = tileHolder.GetComponentInParent<Ground>();
+
+                if (!ground.IsMergeable)
+                {
+                    continue;
+                }
+
+                if (this != ground)
+                {
+                    ground.RemoveTileHolder(tileHolder);
+                }
+
+                foreach (var entity in ground.EntityList)
+                {
+                    if (entity.gameObject == null) continue;
+                    if (entity.Pos == tileHolder.Pos)
+                    {
+                        entityResult.Add(entity);
+                    }
+                }
+
+                groundList[i].Add(tileHolder);
+            }
+            entityListBuffer.Add(entityResult);
+        }
+
+        tileHolderList = new List<TileHolder>();
+        entityList = new List<Entity>();
+        int myIndex = 0;
+        foreach (var list in groundList)
+        {
+            if (commandTileHolderList.Count != 0 && list.Contains(commandTileHolderList[index % commandTileHolderList.Count]))
+            {
+                myIndex = groundList.IndexOf(list);
+            }
+        }
+        for (int i = 0; i < groundList.Count; i++)
+        {
+            Ground ground;
+            if (i == myIndex)
+            {
+                ground = this;
+            }
+            else
+            {
+                GameObject newGround = Instantiate(new GameObject("Ground"));
+                newGround.tag = "Ground";
+                newGround.AddComponent<Ground>();
+                ground = newGround.GetComponent<Ground>();
+            }
+            foreach (var tileHolder in groundList[i])
+            {
+                tileHolder.gameObject.transform.SetParent(ground.gameObject.transform);
+                ground.tileHolderList.Add(tileHolder);
+                Debug.Log("tile: " + tileHolder.name);
+            }
+            foreach (var entity in entityListBuffer[i])
+            {
+                entity.gameObject.transform.SetParent(ground.gameObject.transform);
+                ground.entityList.Add(entity);
+                Debug.Log("entity: " + entity.name);
+            }
+        }
+
+        hasPower = true;
+        GenerateScript();
     }
 
-    private void CheckStageClear()
+    public void CheckStageClear()
     {
         Debug.Log(tileHolderList.Exists(x => x.CurTile != null && x.CurTile.TileType == TILE_TYPE.GOAL));
         Debug.Log(entityList.Exists(x => (x is Power) && (x as Power).IsPlayer));
@@ -240,17 +320,19 @@ public class Ground : MonoBehaviour
 
     public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
 
-    public void OperateLaser(int direction)
+    /* public void OperateLaser(int direction)
     {
         Coordinate laserPos = mineAndLaserPosition.Dequeue();
-    }
+
+
+    } */
 
     public void RemoveEntity(Entity entity) => entityList.Remove(entity);
 
-    public void OperateLaser(Coordinate direction)
+    public void OperateLaser(Coordinate direction, Coordinate pos)
     {
-        Coordinate laserPos = mineAndLaserPosition.Dequeue();
-
+        Debug.Log($"Laser Operated at {pos.X},{pos.Y}");
+        Coordinate laserPos = pos;
         // Laser 작동 코드
         Coordinate newPos = laserPos + direction;
         for (int i = 0; i < 20; i++)
@@ -260,9 +342,9 @@ public class Ground : MonoBehaviour
         }
     }
 
-    public void OperateMine()
+    public void OperateMine(Coordinate pos)
     {
-        Coordinate minePos = mineAndLaserPosition.Dequeue();
+        Coordinate minePos = pos;
 
         destroyPositionList.Add(minePos);
         destroyPositionList.Add(minePos + new Coordinate(1, 0));
@@ -272,12 +354,30 @@ public class Ground : MonoBehaviour
 
     }
 
+    /* 이 함수의 원본
     public void DestroyTileHolders()
     {
         foreach (var pos in destroyPositionList)
         {
             TileManager.Inst.DestroyTile(pos);
         }
+    } */
+
+    public void DestroyTileHolders() {
+        List<TileHolder> newList = new List<TileHolder>();
+        foreach (var pos in destroyPositionList)
+        {
+            TileHolder tileHolder = TileManager.Inst.DestroyTile(pos);
+            if (tileHolder != null)
+            {
+                newList.Add(tileHolder);
+            }
+        }
+        foreach (var tileHolder in newList)
+        {
+            RemoveTileHolder(tileHolder);
+        }
+
     }
 
     public void CheckEntities()
@@ -294,7 +394,7 @@ public class Ground : MonoBehaviour
 
         foreach (var entity in buffer)
         {
-            TileManager.Inst.DestroyEntity(entity);
+            if (TileManager.Inst.DestroyEntity(entity)) RemoveEntity(entity);
         }
     }
 }

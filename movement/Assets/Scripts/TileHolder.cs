@@ -21,7 +21,7 @@ public class TileHolder : MonoBehaviour
         Pos = Coordinate.WorldPointToCoordinate(transform.position);
 
         this.GetComponent<SpriteRenderer>().sprite =
-            canPlaceTile ? holderSprites[0] : holderSprites[1];
+            canPlaceTile ? holderSprites[0] : holderSprites[1]; 
 
         if (CurTile == null) return;
         CurTile.GetComponent<SpriteRenderer>().color = 

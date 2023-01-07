@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GoalTile : Tile
 {
-    public override void RunCommand(Ground ground)
+    public override void RunCommand(Ground ground, Coordinate pos)
     {
+        ground.CheckStageClear();
     }
 }

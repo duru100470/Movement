@@ -21,7 +21,7 @@ public abstract class Tile : MonoBehaviour
             isRunning = value;
         } 
     }
-    public abstract void RunCommand(Ground ground);
+    public abstract void RunCommand(Ground ground, Coordinate pos);
 
     private void Awake()
     {

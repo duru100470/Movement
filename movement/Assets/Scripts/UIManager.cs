@@ -9,7 +9,20 @@ public class UIManager : MonoBehaviour
     private List<GameObject> prefabList;
     [SerializeField]
     private GameObject selectedTilePrefab;
+    [SerializeField]
+    private GameObject resetWarningPanel;
+    [SerializeField]
+    private GameObject resetDonePanel;
+    [SerializeField]
+    private GameObject clearPanel;
+    [SerializeField]
+    private GameObject failPanel;
+    [SerializeField]
+    private PlayerDataManager pdm;
+    [SerializeField]
+    private TurnManager tm;
 
+    private int selectedlevel;
     private void Update()
     {
         // Get Mouse Input
@@ -69,6 +82,9 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("LevelSelect");
     }
 
+    public void LoadStageScene() {
+        SceneManager.LoadScene(gameObject.GetComponent<Level>().level);
+    }
     public void SelectUpTile() {
         selectedTilePrefab = prefabList[0];
     }
@@ -106,4 +122,51 @@ public class UIManager : MonoBehaviour
         selectedTilePrefab = prefabList[index];
     }
 
+    public void showResetWarning() {
+        resetWarningPanel.SetActive(true);
+    }
+    public void Operate1() {
+        resetWarningPanel.SetActive(false);
+        resetDonePanel.SetActive(true);
+        pdm.ResetData();
+    }
+
+    public void Operate2() {
+        resetWarningPanel.SetActive(false);
+    }
+    public void Operate3() {
+        resetDonePanel.SetActive(false);
+    }
+    public void Operate4() {
+        clearPanel.SetActive(false);
+        SceneManager.LoadScene("LevelSelect");
+    }
+
+    public void Operate5() {
+        clearPanel.SetActive(false);
+        int level = SceneManager.GetActiveScene().buildIndex;
+        if (level < 20) SceneManager.LoadScene(level + 1);
+        else SceneManager.LoadScene("LevelSelect");
+    }
+    public void Operate6()
+    {
+        failPanel.SetActive(false);
+        SceneManager.LoadScene("LevelSelect");
+    }
+    public void Operate7() {
+        failPanel.SetActive(false);
+        //TODO: 레벨 재시작
+    }
+    
+    public void SetSpeed(float speed) {
+        GameManager.Inst.gameSpeed = speed;
+    }
+
+    public void ShowClearPanel() {
+        clearPanel.SetActive(true);
+    }
+
+    public void ShowFailPanel() {
+        failPanel.SetActive(true);
+    }
 }

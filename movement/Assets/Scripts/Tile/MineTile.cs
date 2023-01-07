@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MineTile : Tile
 {
-    public override void RunCommand(Ground ground)
+    public override void RunCommand(Ground ground, Coordinate pos)
     {
-        ground.OperateMine();
+        ground.OperateMine(pos);
     }
 }

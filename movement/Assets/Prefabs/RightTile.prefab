@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5164958891239395981}
   - component: {fileID: 1651357629296477814}
-  - component: {fileID: 1200824771814019814}
+  - component: {fileID: 3058078386827654830}
   m_Layer: 0
   m_Name: RightTile
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1200824771814019814
+--- !u!114 &3058078386827654830
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
