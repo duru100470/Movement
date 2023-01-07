@@ -59,16 +59,17 @@ public class TileManager : SingletonBehavior<TileManager>
         }
     }
 
-    public void DestroyEntity(Entity entity)
+    public bool DestroyEntity(Entity entity)
     {
         Coordinate pos = entity.Pos;
-        var target = tileHolderDict[pos];
-        if (target == null)
-        {
-            var ground = target.GetComponentInParent<Ground>();
-            ground.RemoveEntity(entity);
-            Destroy(entity);
+        if (pos == null) return false;
+        if (!tileHolderDict.ContainsKey(pos))
+        { 
+            var ground = entity.GetComponentInParent<Ground>();
+            Destroy(entity.gameObject);
+            return true;
         }
+        return false;
     }
 
     public void RefreshDict(Dictionary<Coordinate, TileHolder> newDict)

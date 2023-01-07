@@ -243,9 +243,18 @@ public class Ground : MonoBehaviour
 
     public void CheckEntities()
     {
-        foreach(var entity in entityList)
+        List<Entity> newList = new List<Entity>();
+        for(int i=0;i<entityList.Count ;i++)
         {
-            TileManager.Inst.DestroyEntity(entity);
+            if (TileManager.Inst.DestroyEntity(entityList[i]))
+            {
+                newList.Add(entityList[i]);
+            }
         }
+        foreach(var entity in newList)
+        {
+            RemoveEntity(entity);
+        }
+
     }
 }
