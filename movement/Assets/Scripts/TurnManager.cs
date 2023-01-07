@@ -25,8 +25,8 @@ public class TurnManager : MonoBehaviour
         {
             DoCurrentTurn();
             groundRoutineList.ForEach(kv => { kv.Key.DestroyTileHolders(); });
-            groundRoutineList.ForEach(kv => { kv.Key.MergeGround(); });
             groundRoutineList.ForEach(kv => { kv.Key.CheckEntities(); });
+            groundRoutineList.ForEach(kv => { kv.Key.MergeGround(); });
             RefreshList();
             yield return new WaitForSeconds(GameManager.Inst.gameSpeed);
         }
@@ -51,7 +51,8 @@ public class TurnManager : MonoBehaviour
         // refresh ground list and generate routine list by using ground list
         foreach (var kv in groundRoutineList)
         {
-            if (kv.Key.IsDestroyed)
+            // ¿øº»: if (kv.Key.IsDestroyed)
+            if (kv.Key.transform.childCount == 0)
             {
                 groundListBuffer.Add(kv);
             }

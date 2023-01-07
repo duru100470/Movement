@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class LaserUpTile : Tile
 {
-    public override void RunCommand(Ground ground)
+    public override void RunCommand(Ground ground, Coordinate pos)
     {
-        ground.OperateLaser(1);
+        ground.OperateLaser(new Coordinate(0, 1), pos);
     }
 }

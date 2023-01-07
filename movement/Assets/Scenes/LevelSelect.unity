@@ -447,7 +447,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 119942038}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 119942040}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &119942038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,7 +798,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 242346182}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 242346184}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &242346182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -923,7 +947,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 321614887}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 321614889}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &321614887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1406,7 +1442,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 401025773}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 401025775}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &401025773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1916,7 +1964,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 626486142}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 626486144}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &626486142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2289,7 +2349,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 773112676}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 773112678}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &773112676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2426,7 +2498,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 827092264}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 827092266}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &827092264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2719,7 +2803,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 865213178}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 865213180}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &865213178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3160,7 +3256,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1022428141}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1022428143}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1022428141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3297,7 +3405,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1065968967}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1065968969}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1065968967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3598,7 +3718,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1323654193}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1323654195}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1323654193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3735,7 +3867,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1334842915}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1334842917}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1334842915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3872,7 +4016,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1408599290}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1408599292}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1408599290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4009,7 +4165,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1429153401}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1429153403}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1429153401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4508,7 +4676,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1678342705}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1678342707}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1678342705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4645,7 +4825,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1712815937}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1712815939}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1712815937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4924,7 +5116,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1851363799}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1851363801}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1851363799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4977,6 +5181,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pdm: {fileID: 1833904243}
   level: 0
+--- !u!1 &1876065199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1876065200}
+  - component: {fileID: 1876065201}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1876065200
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876065199}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 364.19818, y: 224.45842, z: 2.5414011}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1876065201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876065199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b32e72fcc11eb4ba5ab0d421b17478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabList: []
+  selectedTilePrefab: {fileID: 0}
 --- !u!1 &1876595814
 GameObject:
   m_ObjectHideFlags: 0
@@ -5103,7 +5353,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1881730877}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1881730879}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1881730877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5240,7 +5502,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1893058755}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1893058757}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1893058755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5641,7 +5915,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1976765819}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1976765821}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1976765819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5858,7 +6144,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2043649001}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2043649003}
+        m_TargetAssemblyTypeName: Level, Assembly-CSharp
+        m_MethodName: SelectStageFromLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2043649001
 MonoBehaviour:
   m_ObjectHideFlags: 0

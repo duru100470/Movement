@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject selectedTilePrefab;
 
+    private int selectedlevel;
     private void Update()
     {
         // Get Mouse Input
@@ -69,6 +70,9 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("LevelSelect");
     }
 
+    public void LoadStageScene() {
+        SceneManager.LoadScene(gameObject.GetComponent<Level>().level);
+    }
     public void SelectUpTile() {
         selectedTilePrefab = prefabList[0];
     }

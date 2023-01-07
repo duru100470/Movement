@@ -4,7 +4,6 @@ public enum TILE_TYPE
 {
     COMMAND,
     WALL,
-    MINE_AND_LASER
 }
 
 public enum ENTITY_TYPE 

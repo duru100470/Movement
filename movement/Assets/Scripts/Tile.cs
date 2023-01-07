@@ -18,7 +18,7 @@ public abstract class Tile : MonoBehaviour
                 value ? new Color(1f, 1f, 1f, 1f) : new Color(.6f, .6f, .6f, 1f);
         } 
     }
-    public abstract void RunCommand(Ground ground);
+    public abstract void RunCommand(Ground ground, Coordinate pos);
 
     private void Awake()
     {
