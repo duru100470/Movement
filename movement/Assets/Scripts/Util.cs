@@ -7,6 +7,10 @@ public enum TILE_TYPE
     MINE_AND_LASER
 }
 
+public enum ENTITY_TYPE 
+{ 
+    POWER
+}
 [System.Serializable]
 public struct Coordinate
 {
