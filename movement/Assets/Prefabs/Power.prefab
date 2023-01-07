@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8627472680563152177}
   - component: {fileID: 1360666555448179753}
-  - component: {fileID: 8483473032526919868}
+  - component: {fileID: -8969042363616386108}
   m_Layer: 0
   m_Name: Power
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8483473032526919868
+--- !u!114 &-8969042363616386108
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
