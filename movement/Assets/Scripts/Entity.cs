@@ -4,4 +4,5 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
+    public Coordinate Pos { get; set; }
 }

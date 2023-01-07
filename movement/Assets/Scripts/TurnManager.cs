@@ -13,7 +13,7 @@ public class TurnManager : MonoBehaviour
         GetList();
         StartCoroutine(TurnRoutine());
     }
-    
+
     public void StopRoutine()
     {
         StopCoroutine(TurnRoutine());
@@ -21,10 +21,10 @@ public class TurnManager : MonoBehaviour
 
     private IEnumerator TurnRoutine()
     {
-        while(true)
+        while (true)
         {
             DoCurrentTurn();
-            groundRoutineList.ForEach(g => {g.Key.MergeGround();});
+            groundRoutineList.ForEach(kv => { kv.Key.MergeGround(); });
             RefreshList();
             yield return new WaitForSeconds(1f);
         }
@@ -32,8 +32,9 @@ public class TurnManager : MonoBehaviour
 
     private void DoCurrentTurn()
     {
-        groundRoutineList.ForEach(kv => {
-            if(kv.Key.CheckHasPowerSource())
+        groundRoutineList.ForEach(kv =>
+        {
+            if (kv.Key.CheckHasPowerSource())
             {
                 kv.Value.MoveNext();
             }
@@ -42,21 +43,22 @@ public class TurnManager : MonoBehaviour
 
     private void RefreshList()
     {
-        List<KeyValuePair<Ground, IEnumerator>> groundRoutineListBuffer 
+        List<KeyValuePair<Ground, IEnumerator>> groundListBuffer
             = new List<KeyValuePair<Ground, IEnumerator>>();
-        
+
         // refresh ground list and generate routine list by using ground list
-        foreach(var kv in groundRoutineList)
+        foreach (var kv in groundRoutineList)
         {
-            if(kv.Key == null)
+            if (kv.Key.IsDestroyed)
             {
-                groundRoutineList.Add(kv);
+                groundListBuffer.Add(kv);
             }
         }
 
-        foreach(var kv in groundRoutineListBuffer)
+        for (int i = groundListBuffer.Count - 1; i >= 0; i--)
         {
-            groundRoutineList.Remove(kv);
+            groundRoutineList.Remove(groundListBuffer[i]);
+            Destroy(groundListBuffer[i].Key.gameObject);
         }
     }
 
@@ -66,12 +68,21 @@ public class TurnManager : MonoBehaviour
 
         var objList = GameObject.FindGameObjectsWithTag("Ground");
 
-        foreach(var obj in objList)
+        foreach (var obj in objList)
         {
             var ground = obj.GetComponent<Ground>();
+            ground.GenerateScript();
             groundRoutineList.Add(new KeyValuePair<Ground, IEnumerator>(ground, ground.RunScriptRoutine()));
         }
 
         groundRoutineList.OrderBy(x => x.Key.GetPriority());
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartRoutine();
+        }
     }
 }

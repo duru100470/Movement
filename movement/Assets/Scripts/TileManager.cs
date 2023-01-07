@@ -17,6 +17,33 @@ public class TileManager : SingletonBehavior<TileManager>
         {
             var tileHolder = obj.GetComponent<TileHolder>();
             tileHolderDict[tileHolder.Pos] = tileHolder;
+
+            Debug.Log($"{tileHolder.Pos.X} {tileHolder.Pos.Y}");
+        }
+    }
+
+    public List<TileHolder> GetTileHoldersDFS(Coordinate startPos)
+    {
+        List<TileHolder> tileHolderList = new List<TileHolder>();
+
+        GetTileHoldersDFSRecursion(startPos, ref tileHolderList);
+
+        return tileHolderList;
+    }
+
+    private void GetTileHoldersDFSRecursion(Coordinate pos, ref List<TileHolder> tileList)
+    {
+        tileList.Add(tileHolderDict[pos]);
+
+        foreach (var kv in tileHolderDict)
+        {
+            if (Coordinate.Distance(kv.Key, pos) == 1)
+            {
+                if (!tileList.Contains(kv.Value))
+                {
+                    GetTileHoldersDFSRecursion(kv.Key, ref tileList);
+                }
+            }
         }
     }
 
@@ -27,5 +54,16 @@ public class TileManager : SingletonBehavior<TileManager>
         ground.RemoveTileHolder(target);
 
         Destroy(target);
+    }
+
+    public void RefreshDict(Dictionary<Coordinate, TileHolder> newDict)
+    {
+        foreach (var kv in newDict)
+        {
+            if (kv.Value == null)
+                tileHolderDict.Remove(kv.Key);
+            else
+                tileHolderDict[kv.Key] = kv.Value;
+        }
     }
 }
