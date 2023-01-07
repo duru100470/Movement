@@ -105,18 +105,18 @@ public class Ground : MonoBehaviour
 
     public bool CheckHasPowerSource()
     {
-        // if (entityList.Count == 0) hasPower = false;
-        // else
-        // {
-        //     hasPower = entityList.Exists(entity => entity.EntityType == ENTITY_TYPE.POWER);
-        //     foreach (var item in entityList)
-        //     {
-        //         if (item.EntityType == ENTITY_TYPE.POWER)
-        //         {
-        //             Debug.Log($"There is a power at position {item.Pos.X}, {item.Pos.Y}");
-        //         }
-        //     }
-        // }
+        if (entityList.Count == 0) hasPower = false;
+        else
+        {
+            hasPower = entityList.Exists(entity => entity.EntityType == ENTITY_TYPE.POWER);
+            foreach (var item in entityList)
+            {
+                if (item.EntityType == ENTITY_TYPE.POWER)
+                {
+                    Debug.Log($"There is a power at position {item.Pos.X}, {item.Pos.Y}");
+                }
+            }
+        }
         return hasPower;
     }
 
