@@ -47,13 +47,28 @@ public class TileManager : SingletonBehavior<TileManager>
         }
     }
 
-    private void DestoryTile(Coordinate pos)
+    public void DestroyTile(Coordinate pos)
     {
         var target = tileHolderDict[pos];
-        var ground = target.GetComponentInParent<Ground>();
-        ground.RemoveTileHolder(target);
+        if(target != null)
+        {
+            var ground = target.GetComponentInParent<Ground>();
+            ground.RemoveTileHolder(target);
 
-        Destroy(target);
+            Destroy(target);
+        }
+    }
+
+    public void DestroyEntity(Entity entity)
+    {
+        Coordinate pos = entity.Pos;
+        var target = tileHolderDict[pos];
+        if (target == null)
+        {
+            var ground = target.GetComponentInParent<Ground>();
+            ground.RemoveEntity(entity);
+            Destroy(entity);
+        }
     }
 
     public void RefreshDict(Dictionary<Coordinate, TileHolder> newDict)
