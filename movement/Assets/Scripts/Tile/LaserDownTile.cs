@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class LaserDownTile : Tile
 {
-    public override void RunCommand(Ground ground)
-    {
+    public override void RunCommand(Ground ground) {
         ground.OperateLaser(2);
     }
 }
