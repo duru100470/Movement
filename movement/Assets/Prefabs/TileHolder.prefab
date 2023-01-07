@@ -98,3 +98,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canPlaceTile: 0
+  holderSprites:
+  - {fileID: 21300000, guid: 9d5ab79b15299a049983217ba7dc8f61, type: 3}
+  - {fileID: 21300000, guid: b5b7058767f15504cbeb449778cf7c10, type: 3}

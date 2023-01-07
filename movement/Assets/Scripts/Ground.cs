@@ -46,9 +46,11 @@ public class Ground : MonoBehaviour
             {
                 Debug.Log(index);
                 commandList[index](this);
-                index++;
+                commandTileHolderList[index].CurTile.IsRunning = true;
 
                 yield return null;
+                commandTileHolderList[index].CurTile.IsRunning = false;
+                index++;
             }
             index = 0;
         }
@@ -103,18 +105,18 @@ public class Ground : MonoBehaviour
 
     public bool CheckHasPowerSource()
     {
-        if (entityList.Count == 0) hasPower = false;
-        else
-        {
-            hasPower = entityList.Exists(entity => entity.EntityType == ENTITY_TYPE.POWER);
-            foreach (var item in entityList)
-            {
-                if (item.EntityType == ENTITY_TYPE.POWER)
-                {
-                    Debug.Log($"There is a power at position {item.Pos.X}, {item.Pos.Y}");
-                }
-            }
-        }
+        // if (entityList.Count == 0) hasPower = false;
+        // else
+        // {
+        //     hasPower = entityList.Exists(entity => entity.EntityType == ENTITY_TYPE.POWER);
+        //     foreach (var item in entityList)
+        //     {
+        //         if (item.EntityType == ENTITY_TYPE.POWER)
+        //         {
+        //             Debug.Log($"There is a power at position {item.Pos.X}, {item.Pos.Y}");
+        //         }
+        //     }
+        // }
         return hasPower;
     }
 
@@ -195,8 +197,6 @@ public class Ground : MonoBehaviour
             var newPos = tileHolder.Pos + pos;
             TileHolder tmp;
             if (!TileManager.Inst.TileHolderDict.TryGetValue(newPos, out tmp)) continue;
-            Debug.Log($"{newPos.X} {newPos.Y}");
-            Debug.Log(tmp);
             if (tmp.GetComponentInParent<Ground>().gameObject != this.gameObject)
             {
                 ret = true;
