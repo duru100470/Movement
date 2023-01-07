@@ -1,3 +1,4 @@
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,19 +7,41 @@ public class TileManager : SingletonBehavior<TileManager>
 {
     private Dictionary<Coordinate, TileHolder> tileHolderDict;
     public Dictionary<Coordinate, TileHolder> TileHolderDict => tileHolderDict;
+    private Dictionary<Coordinate, Entity> entityDict;
+    private Dictionary<Coordinate, Entity> EntityDict => entityDict;
+    public bool IsFirstLoading { get; set; } = true;
 
     private void Start()
     {
         tileHolderDict = new Dictionary<Coordinate, TileHolder>();
+        entityDict = new Dictionary<Coordinate, Entity>();
 
-        var objs = GameObject.FindGameObjectsWithTag("TileHolder");
+        // For Debug
+        LoadCurrnetMapInfo();
+    }
 
-        foreach(var obj in objs)
+    public void SaveCurrentMapInfo()
+    {
+    }
+
+    public void LoadCurrnetMapInfo()
+    {
+        tileHolderDict.Clear();
+        entityDict.Clear();
+
+        if (IsFirstLoading)
         {
-            var tileHolder = obj.GetComponent<TileHolder>();
-            tileHolderDict[tileHolder.Pos] = tileHolder;
+            var objs = GameObject.FindGameObjectsWithTag("TileHolder");
 
-            Debug.Log($"{tileHolder.Pos.X} {tileHolder.Pos.Y}");
+            foreach (var obj in objs)
+            {
+                var tileHolder = obj.GetComponent<TileHolder>();
+                tileHolderDict[tileHolder.Pos] = tileHolder;
+            }
+        }
+        else
+        {
+            
         }
     }
 
@@ -47,13 +70,28 @@ public class TileManager : SingletonBehavior<TileManager>
         }
     }
 
-    private void DestoryTile(Coordinate pos)
+    public void DestroyTile(Coordinate pos)
     {
         var target = tileHolderDict[pos];
-        var ground = target.GetComponentInParent<Ground>();
-        ground.RemoveTileHolder(target);
+        if (target != null)
+        {
+            var ground = target.GetComponentInParent<Ground>();
+            ground.RemoveTileHolder(target);
 
-        Destroy(target);
+            Destroy(target);
+        }
+    }
+
+    public void DestroyEntity(Entity entity)
+    {
+        Coordinate pos = entity.Pos;
+        var target = tileHolderDict[pos];
+        if (target == null)
+        {
+            var ground = target.GetComponentInParent<Ground>();
+            ground.RemoveEntity(entity);
+            Destroy(entity);
+        }
     }
 
     public void RefreshDict(Dictionary<Coordinate, TileHolder> newDict)
@@ -64,6 +102,14 @@ public class TileManager : SingletonBehavior<TileManager>
                 tileHolderDict.Remove(kv.Key);
             else
                 tileHolderDict[kv.Key] = kv.Value;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SaveCurrentMapInfo();
         }
     }
 }

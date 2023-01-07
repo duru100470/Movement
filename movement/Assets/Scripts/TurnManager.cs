@@ -24,7 +24,9 @@ public class TurnManager : MonoBehaviour
         while (true)
         {
             DoCurrentTurn();
+            groundRoutineList.ForEach(kv => { kv.Key.DestroyTileHolders(); });
             groundRoutineList.ForEach(kv => { kv.Key.MergeGround(); });
+            groundRoutineList.ForEach(kv => { kv.Key.CheckEntities(); });
             RefreshList();
             yield return new WaitForSeconds(GameManager.Inst.gameSpeed);
         }
