@@ -54,6 +54,7 @@ public class Ground : MonoBehaviour
 
         commandList.Clear();
         commandTileHolderList.Clear();
+        mineAndLaserPosition.Clear();
 
         // tileHolderList에서 commandList를 생성
         arrangedTileHolderList = tileHolderList.OrderByDescending(x => x.Pos.Y).ThenBy(x => x.Pos.X).ToList();
@@ -168,38 +169,15 @@ public class Ground : MonoBehaviour
 
     public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
 
-    // Code for debug
-    private void Update()
-    {
-        
-    }
-
     public void OperateLaser(int direction) {
         Coordinate laserPos = mineAndLaserPosition.Dequeue();
 
-        switch (direction) {
-            case 1:
-                tileHolderList.RemoveAll(x => x.Pos.X == laserPos.X && x.Pos.Y > laserPos.Y);
-                break;
-            case 2:
-                tileHolderList.RemoveAll(x => x.Pos.X == laserPos.X && x.Pos.Y < laserPos.Y);
-                break;
-            case 3:
-                tileHolderList.RemoveAll(x => x.Pos.Y == laserPos.Y && x.Pos.X < laserPos.X);
-                break;
-            case 4:
-                tileHolderList.RemoveAll(x => x.Pos.Y == laserPos.Y && x.Pos.X > laserPos.X);
-                break;
-            default:
-                break;
-        }
-        // 같은 위치에 Entity가 있으면 없애야 함
+        // Laser 작동 코드
     }
 
     public void OperateMine() {
         Coordinate minePos = mineAndLaserPosition.Dequeue();
 
-        tileHolderList.RemoveAll(x => Coordinate.Distance(x.Pos, minePos) <= 1);
-        // 같은 위치에 Entity가 있으면 없애야 함
+        // 지뢰 작동 코드. 
     }
 }
