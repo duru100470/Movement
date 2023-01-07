@@ -127,7 +127,7 @@ public class Ground : MonoBehaviour
         foreach (var tileHolder in tileHolderList)
         {
             tileHolder.Pos += pos;
-            if (tileHolder.CurTile.TileType == TILE_TYPE.WALL)
+            if (tileHolder.CurTile != null && tileHolder.CurTile.TileType == TILE_TYPE.WALL)
             {
                 foreach (var entity in entityList)
                 {
@@ -147,7 +147,7 @@ public class Ground : MonoBehaviour
 
     public virtual void MoveEntity(Coordinate pos)
     {
-        // 미완성
+ 
         Dictionary<Coordinate, Entity> newEntityDict = new Dictionary<Coordinate, Entity>();
 
         foreach (var entity in entityList)
@@ -162,7 +162,7 @@ public class Ground : MonoBehaviour
             newEntityDict[entity.Pos] = entity;
         }
 
-        // TileManager처럼 Refresh를 구현하지 않아서 Dictionary가 더러움
+
     }
 
     public void MergeGround()
