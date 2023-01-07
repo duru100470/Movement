@@ -23,6 +23,8 @@ public class Ground : MonoBehaviour
 
     private List<TileHolder> arrangedTileHolderList;
 
+    private Queue<Coordinate> mineAndLaserPosition;
+
     [SerializeField]
     private bool hasPower;
 
@@ -32,11 +34,8 @@ public class Ground : MonoBehaviour
         commandTileHolderList = new List<TileHolder>();
         tileHolderList = GetComponentsInChildren<TileHolder>().ToList();
         entityList = GetComponentsInChildren<Entity>().ToList();
-<<<<<<< Updated upstream
-=======
         mineAndLaserPosition = new Queue<Coordinate>();
         destroyPositionList = new List<Coordinate>();
->>>>>>> Stashed changes
     }
 
     public IEnumerator RunScriptRoutine()
@@ -155,7 +154,6 @@ public class Ground : MonoBehaviour
     // 이 Ground와 다른 Ground간의 충돌체크
     private bool CheckCollision(Coordinate pos)
     {
-<<<<<<< Updated upstream
         bool ret = false;
 
         foreach (var tileHolder in tileHolderList)
@@ -176,11 +174,8 @@ public class Ground : MonoBehaviour
     }
 
     public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
-=======
-        return false;
-    }
 
-    public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
+    public void RemoveEntity(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
     public void RemoveEntity(Entity entity) => entityList.Remove(entity);
 
     public void OperateLaser(Coordinate direction) {
@@ -221,5 +216,4 @@ public class Ground : MonoBehaviour
             TileManager.Inst.DestroyEntity(entity);
         }
     }
->>>>>>> Stashed changes
 }
