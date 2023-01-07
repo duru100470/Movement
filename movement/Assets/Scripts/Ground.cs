@@ -120,21 +120,26 @@ public class Ground : MonoBehaviour
 
     public void MergeGround()
     {
-        if (IsDestroyed) return;
+        if (IsDestroyed || !IsMergeable) return;
         var result = TileManager.Inst.GetTileHoldersDFS(tileHolderList[0].Pos);
+        List<TileHolder> tileHolderListBuffer = new List<TileHolder>();
 
         if (result.Count <= tileHolderList.Count) return;
 
         foreach (var tileHolder in result)
         {
             var ground = tileHolder.GetComponentInParent<Ground>();
+            
+            if (!ground.IsMergeable) continue;
+
             if (this.gameObject != ground.gameObject)
                 ground.IsDestroyed = true;
 
             tileHolder.gameObject.transform.SetParent(this.gameObject.transform);
+            tileHolderListBuffer.Add(tileHolder);
         }
 
-        tileHolderList = result;
+        tileHolderList = tileHolderListBuffer;
         hasPower = true;
         GenerateScript();
     }
