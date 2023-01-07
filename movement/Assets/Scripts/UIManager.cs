@@ -101,4 +101,9 @@ public class UIManager : MonoBehaviour
         selectedTilePrefab = prefabList[7];
     }
 
+    public void SelectTileByIndex(int index)
+    {
+        selectedTilePrefab = prefabList[index];
+    }
+
 }
