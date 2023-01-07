@@ -12,4 +12,8 @@ public class GameManager : SingletonBehavior<GameManager>
     {
         Debug.Log("STAGE CLEAR");
     }
+
+    private void Awake() {
+        Debug.Log(Coordinate.Distance(new Coordinate(0, 0), new Coordinate(1, 1)));
+    }
 }

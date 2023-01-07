@@ -68,7 +68,7 @@ public class TileManager : SingletonBehavior<TileManager>
 
         foreach (var kv in tileHolderDict)
         {
-            if (Coordinate.Distance(kv.Key, pos) == 1)
+            if (Coordinate.Distance(kv.Key, pos) == 1 && kv.Value.GetComponentInParent<Ground>().IsMergeable)
             {
                 if (!tileList.Contains(kv.Value))
                 {
