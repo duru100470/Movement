@@ -47,7 +47,4 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("LevelSelect");
     }
 
-    public void ResetData() { 
-    
-    }
 }

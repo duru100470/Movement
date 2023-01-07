@@ -11,10 +11,9 @@ public class PlayerDataManager : MonoBehaviour
     public int progress;
     private void Awake()
     {
-        // 스테이지 씬에서 스테이지를 클리어할 때 progress를 증가시킨다. (버그 방지 위해 증가보다 설정이 더 좋을 듯)
+        // 스테이지 씬에서 스테이지를 클리어할 때 progress를 새로 설정한다
         progress = PlayerPrefs.GetInt("Progress", 0);
         Debug.Log($"Progress: {progress}");
-        //이제 레벨 선택 씬에서는 프로그래스에 따라 Enable or disable이 정해진다.
     }
 
     private void Start()
@@ -48,4 +47,7 @@ public class PlayerDataManager : MonoBehaviour
         }
     }
 
+    public void ResetData() {
+        PlayerPrefs.SetInt("Progress", 0);
+    }
 }
