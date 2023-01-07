@@ -125,6 +125,17 @@ public class Ground : MonoBehaviour
         foreach (var tileHolder in tileHolderList)
         {
             tileHolder.Pos += pos;
+            if (tileHolder.CurTile.TileType == TILE_TYPE.WALL)
+            {
+                foreach (var entity in entityList)
+                {
+                    if (entity.Pos == tileHolder.Pos)
+                    {
+                        entity.Pos += pos;
+                        entity.transform.position = Coordinate.CoordinatetoWorldPoint(entity.Pos);
+                    }
+                }
+            }
             tileHolder.transform.position = Coordinate.CoordinatetoWorldPoint(tileHolder.Pos);
             newTileHolderDict[tileHolder.Pos] = tileHolder;
         }
@@ -211,7 +222,7 @@ public class Ground : MonoBehaviour
     public void OperateLaser(int direction) {
         Coordinate laserPos = mineAndLaserPosition.Dequeue();
 
-        // Laser 작동 코드
+        
     }
 
     public void OperateMine() {
