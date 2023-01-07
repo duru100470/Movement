@@ -4,4 +4,5 @@ using UnityEngine;
 
 public class GameManager : SingletonBehavior<GameManager>
 {
+    public float gameSpeed { get; set; } = 1f;
 }
