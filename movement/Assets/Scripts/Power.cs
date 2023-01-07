@@ -4,4 +4,7 @@ using UnityEngine;
 
 public class Power : Entity
 {
+    [SerializeField]
+    private bool isPlayer;
+    public bool IsPlayer => isPlayer;
 }

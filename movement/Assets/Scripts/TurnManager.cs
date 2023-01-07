@@ -62,6 +62,8 @@ public class TurnManager : MonoBehaviour
             groundRoutineList.Remove(groundListBuffer[i]);
             Destroy(groundListBuffer[i].Key.gameObject);
         }
+
+        groundRoutineList = groundRoutineList.OrderByDescending(x => x.Key.GetPriority()).ToList();
     }
 
     private void GetList()
@@ -77,7 +79,7 @@ public class TurnManager : MonoBehaviour
             groundRoutineList.Add(new KeyValuePair<Ground, IEnumerator>(ground, ground.RunScriptRoutine()));
         }
 
-        groundRoutineList.OrderByDescending(x => x.Key.GetPriority());
+        groundRoutineList = groundRoutineList.OrderByDescending(x => x.Key.GetPriority()).ToList();
     }
 
     private void Update()

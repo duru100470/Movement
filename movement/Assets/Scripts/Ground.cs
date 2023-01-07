@@ -23,6 +23,7 @@ public class Ground : MonoBehaviour
     [SerializeField]
     private bool hasPower;
 
+    private List<Tile> highlightCancelationBuffer;
     private List<TileHolder> arrangedTileHolderList;
     private List<Entity> arrangedPowerList;
     private Queue<Coordinate> mineAndLaserPosition;
@@ -34,6 +35,7 @@ public class Ground : MonoBehaviour
         entityList = GetComponentsInChildren<Entity>().ToList();
         mineAndLaserPosition = new Queue<Coordinate>();
         destroyPositionList = new List<Coordinate>();
+        highlightCancelationBuffer = new List<Tile>();
     }
 
     public IEnumerator RunScriptRoutine()
@@ -44,12 +46,18 @@ public class Ground : MonoBehaviour
 
             while (index < commandList.Count)
             {
-                Debug.Log(index);
                 commandList[index](this);
                 commandTileHolderList[index].CurTile.IsRunning = true;
 
                 yield return null;
                 commandTileHolderList[index].CurTile.IsRunning = false;
+
+                for (int i = highlightCancelationBuffer.Count - 1; i >= 0; i--)
+                {
+                    highlightCancelationBuffer[i].IsRunning = false;
+                    highlightCancelationBuffer.RemoveAt(i);
+                }
+
                 index++;
             }
             index = 0;
@@ -101,6 +109,8 @@ public class Ground : MonoBehaviour
                                            ThenBy(entity => entity.Pos.X).ToList();
             priority = (arrangedPowerList[0].Pos.Y * 100) - (arrangedPowerList[0].Pos.X);
         }
+
+        Debug.Log($"{this.gameObject.name} => {priority}");
         return priority;
     }
 
@@ -110,13 +120,6 @@ public class Ground : MonoBehaviour
         else
         {
             hasPower = entityList.Exists(entity => entity.EntityType == ENTITY_TYPE.POWER);
-            foreach (var item in entityList)
-            {
-                if (item.EntityType == ENTITY_TYPE.POWER)
-                {
-                    Debug.Log($"There is a power at position {item.Pos.X}, {item.Pos.Y}");
-                }
-            }
         }
         return hasPower;
     }
@@ -187,9 +190,12 @@ public class Ground : MonoBehaviour
                 {
                     entity.gameObject.transform.SetParent(this.gameObject.transform);
                     entityList.Add(entity);
-                    Debug.Log("ch pa");
                 }
                 ground.entityList.Clear();
+
+                // Merge시 하이라이팅 픽스
+                if (tileHolder.CurTile != null && tileHolder.CurTile.IsRunning)
+                    highlightCancelationBuffer.Add(tileHolder.CurTile);
             }
             tileHolder.gameObject.transform.SetParent(this.gameObject.transform);
             tileHolderListBuffer.Add(tileHolder);
@@ -197,7 +203,20 @@ public class Ground : MonoBehaviour
 
         tileHolderList = tileHolderListBuffer;
         hasPower = true;
+        CheckStageClear();
         GenerateScript();
+    }
+
+    private void CheckStageClear()
+    {
+        Debug.Log(tileHolderList.Exists(x => x.CurTile != null && x.CurTile.TileType == TILE_TYPE.GOAL));
+        Debug.Log(entityList.Exists(x => (x is Power) && (x as Power).IsPlayer));
+
+        if (tileHolderList.Exists(x => x.CurTile != null && x.CurTile.TileType == TILE_TYPE.GOAL) &&
+            entityList.Exists(x => (x is Power) && (x as Power).IsPlayer))
+        {
+            GameManager.Inst.ClearStage();
+        }
     }
 
     // 이 Ground와 다른 Ground간의 충돌체크
@@ -225,8 +244,6 @@ public class Ground : MonoBehaviour
     public void OperateLaser(int direction)
     {
         Coordinate laserPos = mineAndLaserPosition.Dequeue();
-
-
     }
 
     public void RemoveEntity(Entity entity) => entityList.Remove(entity);
@@ -266,7 +283,6 @@ public class Ground : MonoBehaviour
 
     public void CheckEntities()
     {
-        Debug.Log("Checking");
         var buffer = new List<Entity>();
 
         foreach (var entity in entityList)
@@ -277,7 +293,6 @@ public class Ground : MonoBehaviour
             }
         }
 
-        Debug.Log(buffer.Count);
         foreach (var entity in buffer)
         {
             TileManager.Inst.DestroyEntity(entity);
