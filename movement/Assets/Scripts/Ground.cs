@@ -40,6 +40,8 @@ public class Ground : MonoBehaviour
     {
         while (true)
         {
+            if (commandList.Count == 0) yield break;
+
             while (index < commandList.Count)
             {
 
@@ -274,7 +276,6 @@ public class Ground : MonoBehaviour
 
     public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
 
-    public void RemoveEntity(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
     public void RemoveEntity(Entity entity) => entityList.Remove(entity);
 
     public void OperateLaser(Coordinate direction, Coordinate pos) {
