@@ -92,6 +92,7 @@ public class Ground : MonoBehaviour
     public int GetPriority()
     {
         int priority;
+
         if (!hasPower) priority = -100;
         else
         {
@@ -134,6 +135,17 @@ public class Ground : MonoBehaviour
         foreach (var tileHolder in tileHolderList)
         {
             tileHolder.Pos += pos;
+            if (tileHolder.CurTile != null && tileHolder.CurTile.TileType == TILE_TYPE.WALL)
+            {
+                foreach (var entity in entityList)
+                {
+                    if (entity.Pos == tileHolder.Pos)
+                    {
+                        entity.Pos += pos;
+                        entity.transform.position = Coordinate.CoordinatetoWorldPoint(entity.Pos);
+                    }
+                }
+            }
             tileHolder.transform.position = Coordinate.CoordinatetoWorldPoint(tileHolder.Pos);
             newTileHolderDict[tileHolder.Pos] = tileHolder;
         }
@@ -143,7 +155,7 @@ public class Ground : MonoBehaviour
 
     public virtual void MoveEntity(Coordinate pos)
     {
-        // 미완성
+ 
         Dictionary<Coordinate, Entity> newEntityDict = new Dictionary<Coordinate, Entity>();
 
         foreach (var entity in entityList)
@@ -158,7 +170,7 @@ public class Ground : MonoBehaviour
             newEntityDict[entity.Pos] = entity;
         }
 
-        // TileManager처럼 Refresh를 구현하지 않아서 Dictionary가 더러움
+
     }
 
     public void MergeGround()
@@ -176,8 +188,14 @@ public class Ground : MonoBehaviour
             if (!ground.IsMergeable) continue;
 
             if (this.gameObject != ground.gameObject)
+            {
                 ground.IsDestroyed = true;
-
+                foreach (var entity in ground.entityList) {
+                    entity.gameObject.transform.SetParent(this.gameObject.transform);
+                    entityList.Add(entity);
+                }
+                ground.entityList = new List<Entity>();
+            }
             tileHolder.gameObject.transform.SetParent(this.gameObject.transform);
             tileHolderListBuffer.Add(tileHolder);
         }
@@ -213,7 +231,7 @@ public class Ground : MonoBehaviour
     {
         Coordinate laserPos = mineAndLaserPosition.Dequeue();
 
-        // Laser 작동 코드
+        
     }
 
     public void RemoveEntity(Entity entity) => entityList.Remove(entity);
