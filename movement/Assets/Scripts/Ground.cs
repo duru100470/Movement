@@ -17,14 +17,12 @@ public class Ground : MonoBehaviour
     [SerializeField]
     private bool isMergeable;
     public bool IsMergeable => isMergeable;
+    [SerializeField]
+    private bool hasPower;
 
     private List<TileHolder> arrangedTileHolderList;
     private List<Entity> arrangedPowerList;
     private Queue<Coordinate> mineAndLaserPosition;
-
-    [SerializeField]
-    private bool hasPower;
-
     private void Awake()
     {
         commandList = new List<Action<Ground>>();
@@ -64,14 +62,15 @@ public class Ground : MonoBehaviour
         // tileHolderList에서 commandList를 생성
         arrangedTileHolderList = tileHolderList.OrderByDescending(x => x.Pos.Y).ThenBy(x => x.Pos.X).ToList();
 
-        foreach (TileHolder tileholder in arrangedTileHolderList)
+        foreach (var tileholder in arrangedTileHolderList)
         {
             if (tileholder.CurTile != null && tileholder.CurTile.TileType == TILE_TYPE.COMMAND)
             {
                 commandTileHolderList.Add(tileholder);
                 commandList.Add(tileholder.CurTile.RunCommand);
             }
-            else if (tileholder.CurTile != null && tileholder.CurTile.TileType == TILE_TYPE.COMMAND) {
+            else if (tileholder.CurTile != null && tileholder.CurTile.TileType == TILE_TYPE.COMMAND)
+            {
                 commandTileHolderList.Add(tileholder);
                 commandList.Add(tileholder.CurTile.RunCommand);
                 mineAndLaserPosition.Enqueue(tileholder.Pos);
@@ -87,7 +86,8 @@ public class Ground : MonoBehaviour
         int priority;
 
         if (!hasPower) priority = -100;
-        else {
+        else
+        {
             arrangedPowerList = entityList.Where(entity => entity.EntityType == ENTITY_TYPE.POWER).
                                            OrderByDescending(entity => entity.Pos.Y).
                                            ThenBy(entity => entity.Pos.X).ToList();
@@ -102,8 +102,10 @@ public class Ground : MonoBehaviour
         else
         {
             hasPower = entityList.Exists(entity => entity.EntityType == ENTITY_TYPE.POWER);
-            foreach (var item in entityList) {
-                if (item.EntityType == ENTITY_TYPE.POWER) {
+            foreach (var item in entityList)
+            {
+                if (item.EntityType == ENTITY_TYPE.POWER)
+                {
                     Debug.Log($"There is a power at position {item.Pos.X}, {item.Pos.Y}");
                 }
             }
@@ -158,7 +160,7 @@ public class Ground : MonoBehaviour
             entity.Pos += pos;
             entity.transform.position = Coordinate.CoordinatetoWorldPoint(entity.Pos);
             newEntityDict[entity.Pos] = entity;
-        } 
+        }
 
         // TileManager처럼 Refresh를 구현하지 않아서 Dictionary가 더러움
     }
@@ -174,7 +176,7 @@ public class Ground : MonoBehaviour
         foreach (var tileHolder in result)
         {
             var ground = tileHolder.GetComponentInParent<Ground>();
-            
+
             if (!ground.IsMergeable) continue;
 
             if (this.gameObject != ground.gameObject)
@@ -219,13 +221,15 @@ public class Ground : MonoBehaviour
 
     public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
 
-    public void OperateLaser(int direction) {
+    public void OperateLaser(int direction)
+    {
         Coordinate laserPos = mineAndLaserPosition.Dequeue();
 
         
     }
 
-    public void OperateMine() {
+    public void OperateMine()
+    {
         Coordinate minePos = mineAndLaserPosition.Dequeue();
 
         // 지뢰 작동 코드. 
