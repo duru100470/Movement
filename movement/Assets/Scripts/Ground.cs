@@ -46,8 +46,8 @@ public class Ground : MonoBehaviour
 
             while (index < commandList.Count)
             {
-                commandList[index](this);
                 commandTileHolderList[index].CurTile.IsRunning = true;
+                commandList[index](this);
 
                 yield return null;
                 commandTileHolderList[index].CurTile.IsRunning = false;
@@ -100,8 +100,9 @@ public class Ground : MonoBehaviour
     public int GetPriority()
     {
         int priority;
+        CheckHasPowerSource();
 
-        if (!hasPower) priority = -100;
+        if (!hasPower) priority = Int32.MinValue;
         else
         {
             arrangedPowerList = entityList.Where(entity => entity.EntityType == ENTITY_TYPE.POWER).
@@ -109,8 +110,6 @@ public class Ground : MonoBehaviour
                                            ThenBy(entity => entity.Pos.X).ToList();
             priority = (arrangedPowerList[0].Pos.Y * 100) - (arrangedPowerList[0].Pos.X);
         }
-
-        Debug.Log($"{this.gameObject.name} => {priority}");
         return priority;
     }
 

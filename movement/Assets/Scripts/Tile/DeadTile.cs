@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoubleRightTile : Tile
+public class DeadTile : Tile
 {
-    private Coordinate direction = new(1, 0);
     public override void RunCommand(Ground ground)
     {
-        ground.MoveTileHolder(direction);
+        GameManager.Inst.Fail();
     }
 }
