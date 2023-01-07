@@ -4,34 +4,33 @@ using UnityEngine;
 
 public class GameManager : SingletonBehavior<GameManager>
 {
-    public float gameSpeed = 0.25f;
+    public bool playing;
+    public float gameSpeed = 1f;
     public TurnManager turnManager { get; set; }
     public UIManager uiManager { get; set; }
-    public GameObject bg;
-
     public PlayerDataManager playerDataManager { get; set; }
+
+    public GameObject bg;
     public void ClearStage()
     {
         Debug.Log("STAGE CLEAR");
-        turnManager.StopRoutine();
+        playing = false;
         playerDataManager.SetProgress();
         uiManager.ShowClearPanel();
-    }
-
-    private void Start()
-    {
-        playerDataManager = FindObjectOfType<PlayerDataManager>().GetComponent<PlayerDataManager>();
-        uiManager = FindObjectOfType<UIManager>().GetComponent<UIManager>();
-        turnManager = FindObjectOfType<TurnManager>().GetComponent<TurnManager>();
     }
 
     public void Fail()
     {
         Debug.Log("FAIL");
         bg.GetComponent<SpriteRenderer>().color = Color.red;
+        playing = false;
+        uiManager.ShowFailPanel();
     }
-
-    private void Awake() {
-        Debug.Log(Coordinate.Distance(new Coordinate(0, 0), new Coordinate(1, 1)));
+    private void Start()
+    {
+        playing = true;
+        playerDataManager = FindObjectOfType<PlayerDataManager>().GetComponent<PlayerDataManager>();
+        uiManager = FindObjectOfType<UIManager>().GetComponent<UIManager>();
+        turnManager = FindObjectOfType<TurnManager>().GetComponent<TurnManager>();
     }
 }

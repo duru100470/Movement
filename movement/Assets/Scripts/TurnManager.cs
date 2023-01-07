@@ -21,7 +21,7 @@ public class TurnManager : MonoBehaviour
 
     private IEnumerator TurnRoutine()
     {
-        while (true)
+        while (GameManager.Inst.playing)
         {
             DoCurrentTurn();
             groundRoutineList.ForEach(kv => { kv.Key.DestroyTileHolders(); });

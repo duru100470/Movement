@@ -49,7 +49,7 @@ public class Ground : MonoBehaviour
                 Debug.Log(index);
                 commandList[index](this, commandTileHolderList[index].Pos);
                 commandTileHolderList[index].CurTile.IsRunning = true;
-                commandList[index](this);
+                //commandList[index](this, commandTileHolderList[index].Pos);
 
                 yield return null;
                 if (commandList.Count == 0) yield break;

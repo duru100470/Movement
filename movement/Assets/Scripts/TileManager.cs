@@ -2,6 +2,8 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class TileManager : SingletonBehavior<TileManager>
 {
@@ -9,28 +11,26 @@ public class TileManager : SingletonBehavior<TileManager>
     public Dictionary<Coordinate, TileHolder> TileHolderDict => tileHolderDict;
     private Dictionary<Entity, Coordinate> entityDict;
     private Dictionary<Entity, Coordinate> EntityDict => entityDict;
-    public bool IsFirstLoading { get; set; } = true;
-
+    // public bool IsFirstLoading { get; set; } = true;
     private void Start()
     {
         tileHolderDict = new Dictionary<Coordinate, TileHolder>();
         entityDict = new Dictionary<Entity, Coordinate>();
-
         // For Debug
         LoadCurrnetMapInfo();
     }
 
-    public void SaveCurrentMapInfo()
-    {
-    }
 
+    public void RefreshStage() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
     public void LoadCurrnetMapInfo()
     {
         tileHolderDict.Clear();
         entityDict.Clear();
 
-        if (IsFirstLoading)
-        {
+        //if (IsFirstLoading)
+        //{
             var objs = GameObject.FindGameObjectsWithTag("TileHolder");
 
             foreach (var obj in objs)
@@ -46,11 +46,11 @@ public class TileManager : SingletonBehavior<TileManager>
                 var entity = obj.GetComponent<Entity>();
                 entityDict[entity] = entity.Pos;
             }
-        }
+        /*}
         else
         {
             
-        }
+        }*/
     }
 
     public List<TileHolder> GetTileHoldersDFS(Coordinate startPos)

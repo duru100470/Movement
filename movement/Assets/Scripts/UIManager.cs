@@ -16,6 +16,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject clearPanel;
     [SerializeField]
+    private GameObject failPanel;
+    [SerializeField]
     private PlayerDataManager pdm;
     [SerializeField]
     private TurnManager tm;
@@ -146,12 +148,25 @@ public class UIManager : MonoBehaviour
         if (level < 20) SceneManager.LoadScene(level + 1);
         else SceneManager.LoadScene("LevelSelect");
     }
-
+    public void Operate6()
+    {
+        failPanel.SetActive(false);
+        SceneManager.LoadScene("LevelSelect");
+    }
+    public void Operate7() {
+        failPanel.SetActive(false);
+        //TODO: 레벨 재시작
+    }
+    
     public void SetSpeed(float speed) {
         GameManager.Inst.gameSpeed = speed;
     }
 
     public void ShowClearPanel() {
         clearPanel.SetActive(true);
+    }
+
+    public void ShowFailPanel() {
+        failPanel.SetActive(true);
     }
 }
