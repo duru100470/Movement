@@ -19,16 +19,15 @@ public class Ground : MonoBehaviour
     public bool IsMergeable => isMergeable;
 
     private List<TileHolder> arrangedTileHolderList;
-
-    [SerializeField]
-    private bool hasPower;
-
+    private List<Entity> arrangedPowerList;
+    private Queue<Coordinate> mineAndLaserPosition;
     private void Awake()
     {
         commandList = new List<Action<Ground>>();
         commandTileHolderList = new List<TileHolder>();
         tileHolderList = GetComponentsInChildren<TileHolder>().ToList();
         entityList = GetComponentsInChildren<Entity>().ToList();
+        mineAndLaserPosition = new Queue<Coordinate>();
     }
 
     public IEnumerator RunScriptRoutine()
@@ -56,16 +55,20 @@ public class Ground : MonoBehaviour
 
         commandList.Clear();
         commandTileHolderList.Clear();
+        mineAndLaserPosition.Clear();
 
         // tileHolderList에서 commandList를 생성
         arrangedTileHolderList = tileHolderList.OrderByDescending(x => x.Pos.Y).ThenBy(x => x.Pos.X).ToList();
 
-        foreach (TileHolder tileholder in arrangedTileHolderList)
-        {
             if (tileholder.CurTile != null && tileholder.CurTile.TileType == TILE_TYPE.COMMAND)
             {
                 commandTileHolderList.Add(tileholder);
                 commandList.Add(tileholder.CurTile.RunCommand);
+            }
+            else if (tileholder.CurTile != null && tileholder.CurTile.TileType == TILE_TYPE.COMMAND) {
+                commandTileHolderList.Add(tileholder);
+                commandList.Add(tileholder.CurTile.RunCommand);
+                mineAndLaserPosition.Enqueue(tileholder.Pos);
             }
         }
 
@@ -75,12 +78,29 @@ public class Ground : MonoBehaviour
 
     public int GetPriority()
     {
-        return 0;
+        int priority;
+        if (!hasPower) priority = -100;
+        else {
+            arrangedPowerList = entityList.Where(entity => entity.EntityType == ENTITY_TYPE.POWER).
+                                           OrderByDescending(entity => entity.Pos.Y).
+                                           ThenBy(entity => entity.Pos.X).ToList();
+            priority = (arrangedPowerList[0].Pos.Y * 100) - (arrangedPowerList[0].Pos.X);
+        }
+        return priority;
     }
 
     public bool CheckHasPowerSource()
     {
-        // return entityList.Count != 0;
+        if (entityList.Count == 0) hasPower = false;
+        else
+        {
+            hasPower = entityList.Exists(entity => entity.EntityType == ENTITY_TYPE.POWER);
+            foreach (var item in entityList) {
+                if (item.EntityType == ENTITY_TYPE.POWER) {
+                    Debug.Log($"There is a power at position {item.Pos.X}, {item.Pos.Y}");
+                }
+            }
+        }
         return hasPower;
     }
 
@@ -107,15 +127,22 @@ public class Ground : MonoBehaviour
 
     public virtual void MoveEntity(Coordinate pos)
     {
-        // Entity가 구현되면 사용 가능
+        // 미완성
+        Dictionary<Coordinate, Entity> newEntityDict = new Dictionary<Coordinate, Entity>();
 
-        /*if (CheckCollision(pos)) return;
+        foreach (var entity in entityList)
+        {
+            newEntityDict[entity.Pos] = null;
+        }
 
-        foreach (var entity in EntityList)
+        foreach (var entity in entityList)
         {
             entity.Pos += pos;
-            entity.transform.position = Coordinate.CoordinatetoWorldPoint(tileHolder.Pos);
-        }*/
+            entity.transform.position = Coordinate.CoordinatetoWorldPoint(entity.Pos);
+            newEntityDict[entity.Pos] = entity;
+        } 
+
+        // TileManager처럼 Refresh를 구현하지 않아서 Dictionary가 더러움
     }
 
     public void MergeGround()
@@ -167,4 +194,16 @@ public class Ground : MonoBehaviour
     }
 
     public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
+
+    public void OperateLaser(int direction) {
+        Coordinate laserPos = mineAndLaserPosition.Dequeue();
+
+        // Laser 작동 코드
+    }
+
+    public void OperateMine() {
+        Coordinate minePos = mineAndLaserPosition.Dequeue();
+
+        // 지뢰 작동 코드. 
+    }
 }

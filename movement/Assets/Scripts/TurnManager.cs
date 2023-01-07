@@ -75,7 +75,7 @@ public class TurnManager : MonoBehaviour
             groundRoutineList.Add(new KeyValuePair<Ground, IEnumerator>(ground, ground.RunScriptRoutine()));
         }
 
-        groundRoutineList.OrderBy(x => x.Key.GetPriority());
+        groundRoutineList.OrderByDescending(x => x.Key.GetPriority());
     }
 
     private void Update()
