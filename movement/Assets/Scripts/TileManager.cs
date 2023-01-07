@@ -33,6 +33,7 @@ public class TileManager : SingletonBehavior<TileManager>
 
     private void GetTileHoldersDFSRecursion(Coordinate pos, ref List<TileHolder> tileList)
     {
+        if (!TileHolderDict.ContainsKey(pos)) return;
         tileList.Add(tileHolderDict[pos]);
 
         foreach (var kv in tileHolderDict)

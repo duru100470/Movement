@@ -51,7 +51,8 @@ public class TurnManager : MonoBehaviour
         // refresh ground list and generate routine list by using ground list
         foreach (var kv in groundRoutineList)
         {
-            if (kv.Key.IsDestroyed)
+
+            if (kv.Key.transform.childCount == 0)
             {
                 groundListBuffer.Add(kv);
             }
@@ -74,11 +75,6 @@ public class TurnManager : MonoBehaviour
 
         foreach (var obj in objList)
         {
-            if(obj.transform.childCount == 0)
-            {
-                destroyList.Add(obj);
-                continue;
-            }
             var ground = obj.GetComponent<Ground>();
             ground.GenerateScript();
             groundRoutineList.Add(new KeyValuePair<Ground, IEnumerator>(ground, ground.RunScriptRoutine()));
