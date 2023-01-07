@@ -40,6 +40,8 @@ public class Ground : MonoBehaviour
     {
         while (true)
         {
+            if (commandList.Count == 0) yield break;
+
             while (index < commandList.Count)
             {
                 Debug.Log(index);
