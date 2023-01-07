@@ -14,6 +14,9 @@ public class Ground : MonoBehaviour
     private List<Action<Ground>> commandList;
     private int index = 0;
     public bool IsDestroyed { get; set; } = false;
+    [SerializeField]
+    private bool isMergeable;
+    public bool IsMergeable => isMergeable;
 
     private List<TileHolder> arrangedTileHolderList;
     private List<Entity> arrangedPowerList;
@@ -151,14 +154,18 @@ public class Ground : MonoBehaviour
 
     public void MergeGround()
     {
-        if (IsDestroyed) return;
+        if (IsDestroyed || !IsMergeable) return;
         var result = TileManager.Inst.GetTileHoldersDFS(tileHolderList[0].Pos);
+        List<TileHolder> tileHolderListBuffer = new List<TileHolder>();
 
         if (result.Count <= tileHolderList.Count) return;
 
         foreach (var tileHolder in result)
         {
             var ground = tileHolder.GetComponentInParent<Ground>();
+            
+            if (!ground.IsMergeable) continue;
+
             if (this.gameObject != ground.gameObject)
             {
                 ground.IsDestroyed = true;
@@ -169,17 +176,34 @@ public class Ground : MonoBehaviour
                 ground.entityList = new List<Entity>();
             }
             tileHolder.gameObject.transform.SetParent(this.gameObject.transform);
+            tileHolderListBuffer.Add(tileHolder);
         }
 
-        tileHolderList = result;
+        tileHolderList = tileHolderListBuffer;
         hasPower = true;
         GenerateScript();
     }
 
-    // 이 Ground와 Steel Ground간의 충돌체크
+    // 이 Ground와 다른 Ground간의 충돌체크
     private bool CheckCollision(Coordinate pos)
     {
-        return false;
+        bool ret = false;
+
+        foreach (var tileHolder in tileHolderList)
+        {
+            var newPos = tileHolder.Pos + pos;
+            TileHolder tmp;
+            if (!TileManager.Inst.TileHolderDict.TryGetValue(newPos, out tmp)) continue;
+            Debug.Log($"{newPos.X} {newPos.Y}");
+            Debug.Log(tmp);
+            if (tmp.GetComponentInParent<Ground>().gameObject != this.gameObject)
+            {
+                ret = true;
+                break;
+            }
+        }
+
+        return ret;
     }
 
     public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
