@@ -47,16 +47,28 @@ public class TileManager : SingletonBehavior<TileManager>
         }
     }
 
-    public void DestroyTile(Coordinate pos)
+    public TileHolder FindTileHolder(Coordinate pos)
     {
-        var target = tileHolderDict[pos];
-        if(target != null)
-        {
-            var ground = target.GetComponentInParent<Ground>();
-            ground.RemoveTileHolder(target);
+        if (TileHolderDict.ContainsKey(pos)) return TileHolderDict[pos];
+        return null;
+    }
 
-            Destroy(target);
+    public bool DestroyTile(TileHolder tileHolder)
+    {
+        if (!tileHolderDict.ContainsValue(tileHolder)) return false;
+        Coordinate key = new Coordinate();
+        foreach (var e in tileHolderDict)
+        {
+            if(e.Value == tileHolder)
+            {
+                key = e.Key;
+                break;
+            }
         }
+        if (key == null) return false;
+        tileHolderDict.Remove(key);
+        Destroy(tileHolder.gameObject);
+        return true;
     }
 
     public bool DestroyEntity(Entity entity)
@@ -65,7 +77,6 @@ public class TileManager : SingletonBehavior<TileManager>
         if (pos == null) return false;
         if (!tileHolderDict.ContainsKey(pos))
         { 
-            var ground = entity.GetComponentInParent<Ground>();
             Destroy(entity.gameObject);
             return true;
         }

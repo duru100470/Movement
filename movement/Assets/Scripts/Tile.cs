@@ -8,5 +8,5 @@ public abstract class Tile : MonoBehaviour
     private TILE_TYPE tileType;
     public TILE_TYPE TileType => tileType;
     public bool isRunning { get; set; } = false;
-    public abstract void RunCommand(Ground ground);
+    public abstract void RunCommand(Ground ground, Coordinate pos);
 }

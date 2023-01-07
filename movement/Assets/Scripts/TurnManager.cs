@@ -25,8 +25,8 @@ public class TurnManager : MonoBehaviour
         {
             DoCurrentTurn();
             groundRoutineList.ForEach(kv => { kv.Key.DestroyTileHolders(); });
-            groundRoutineList.ForEach(kv => { kv.Key.MergeGround(); });
             groundRoutineList.ForEach(kv => { kv.Key.CheckEntities(); });
+            groundRoutineList.ForEach(kv => { kv.Key.MergeGround(); });
             RefreshList();
             yield return new WaitForSeconds(GameManager.Inst.gameSpeed);
         }
@@ -70,11 +70,23 @@ public class TurnManager : MonoBehaviour
 
         var objList = GameObject.FindGameObjectsWithTag("Ground");
 
+        var destroyList = new List<GameObject>();
+
         foreach (var obj in objList)
         {
+            if(obj.transform.childCount == 0)
+            {
+                destroyList.Add(obj);
+                continue;
+            }
             var ground = obj.GetComponent<Ground>();
             ground.GenerateScript();
             groundRoutineList.Add(new KeyValuePair<Ground, IEnumerator>(ground, ground.RunScriptRoutine()));
+        }
+        
+        foreach (var obj in destroyList)
+        {
+            Destroy(obj);
         }
 
         groundRoutineList.OrderByDescending(x => x.Key.GetPriority());
