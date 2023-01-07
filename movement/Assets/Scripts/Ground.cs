@@ -65,10 +65,11 @@ public class Ground : MonoBehaviour
                 commandTileHolderList.Add(tileholder);
                 commandList.Add(tileholder.CurTile.RunCommand);
             }
-                else if (tileholder.CurTile.TileType == TILE_TYPE.MINE_AND_LASER) {
-                    commandList.Add(tileholder.CurTile.RunCommand);
-                    mineAndLaserPosition.Enqueue(tileholder.Pos);
-                }
+            else if (tileholder.CurTile != null && tileholder.CurTile.TileType == TILE_TYPE.COMMAND) {
+                commandTileHolderList.Add(tileholder);
+                commandList.Add(tileholder.CurTile.RunCommand);
+                mineAndLaserPosition.Enqueue(tileholder.Pos);
+            }
         }
 
         if (curCmdTileHolder != null)
