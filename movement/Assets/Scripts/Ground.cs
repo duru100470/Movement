@@ -109,6 +109,8 @@ public class Ground : MonoBehaviour
                                            ThenBy(entity => entity.Pos.X).ToList();
             priority = (arrangedPowerList[0].Pos.Y * 100) - (arrangedPowerList[0].Pos.X);
         }
+
+        Debug.Log($"{this.gameObject.name} => {priority}");
         return priority;
     }
 
