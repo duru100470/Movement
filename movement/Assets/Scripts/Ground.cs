@@ -155,6 +155,8 @@ public class Ground : MonoBehaviour
 
     public virtual void MoveEntity(Coordinate pos)
     {
+        if (CheckCollision(pos)) return;
+
         foreach (var entity in entityList)
         {
             entity.Pos += pos;
@@ -185,8 +187,9 @@ public class Ground : MonoBehaviour
                 {
                     entity.gameObject.transform.SetParent(this.gameObject.transform);
                     entityList.Add(entity);
+                    Debug.Log("ch pa");
                 }
-                ground.entityList = new List<Entity>();
+                ground.entityList.Clear();
             }
             tileHolder.gameObject.transform.SetParent(this.gameObject.transform);
             tileHolderListBuffer.Add(tileHolder);
