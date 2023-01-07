@@ -44,7 +44,7 @@ public class UIManager : MonoBehaviour
 
         var obj = Instantiate(selectedTilePrefab);
         obj.transform.parent = target.transform;
-        obj.transform.position = obj.transform.parent.position;
+        obj.transform.position = obj.transform.parent.position + new Vector3(0,0,-1);
         target.CurTile = obj.GetComponent<Tile>();
     }
 
