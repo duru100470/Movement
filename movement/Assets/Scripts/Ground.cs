@@ -17,6 +17,8 @@ public class Ground : MonoBehaviour
 
     private List<TileHolder> arrangedTileHolderList;
 
+    private Queue<Coordinate> mineAndLaserPosition;
+
     [SerializeField]
     private bool hasPower;
 
@@ -53,6 +55,7 @@ public class Ground : MonoBehaviour
 
         commandList.Clear();
         commandTileHolderList.Clear();
+        mineAndLaserPosition.Clear();
 
         // tileHolderList에서 commandList를 생성
         arrangedTileHolderList = tileHolderList.OrderByDescending(x => x.Pos.Y).ThenBy(x => x.Pos.X).ToList();
@@ -63,6 +66,11 @@ public class Ground : MonoBehaviour
             {
                 commandTileHolderList.Add(tileholder);
                 commandList.Add(tileholder.CurTile.RunCommand);
+            }
+            else if (tileholder.CurTile != null && tileholder.CurTile.TileType == TILE_TYPE.COMMAND) {
+                commandTileHolderList.Add(tileholder);
+                commandList.Add(tileholder.CurTile.RunCommand);
+                mineAndLaserPosition.Enqueue(tileholder.Pos);
             }
         }
 
@@ -143,4 +151,16 @@ public class Ground : MonoBehaviour
     }
 
     public void RemoveTileHolder(TileHolder tileHolder) => tileHolderList.Remove(tileHolder);
+
+    public void OperateLaser(int direction) {
+        Coordinate laserPos = mineAndLaserPosition.Dequeue();
+
+        // Laser 작동 코드
+    }
+
+    public void OperateMine() {
+        Coordinate minePos = mineAndLaserPosition.Dequeue();
+
+        // 지뢰 작동 코드. 
+    }
 }
