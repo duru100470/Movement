@@ -8,6 +8,5 @@ public class DoubleRightTile : Tile
     public override void RunCommand(Ground ground, Coordinate pos)
     {
         ground.MoveTileHolder(direction);
-        ground.MoveEntity(direction);
     }
 }

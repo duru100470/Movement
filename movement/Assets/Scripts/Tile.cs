@@ -15,8 +15,9 @@ public abstract class Tile : MonoBehaviour
         }
         set
         {
-            GetComponent<SpriteRenderer>().color = 
-                value ? new Color(1f, 1f, 1f, 1f) : new Color(.6f, .6f, .6f, 1f);
+            if (tileType == TILE_TYPE.COMMAND)
+                GetComponent<SpriteRenderer>().color = 
+                    value ? new Color(1f, 1f, 1f, 1f) : new Color(.6f, .6f, .6f, 1f);
             isRunning = value;
         } 
     }
