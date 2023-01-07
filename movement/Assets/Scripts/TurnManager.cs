@@ -26,7 +26,7 @@ public class TurnManager : MonoBehaviour
             DoCurrentTurn();
             groundRoutineList.ForEach(kv => { kv.Key.MergeGround(); });
             RefreshList();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(GameManager.Inst.gameSpeed);
         }
     }
 
