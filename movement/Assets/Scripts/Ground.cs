@@ -10,6 +10,9 @@ public class Ground : MonoBehaviour
     public List<TileHolder> TileHolderList => tileHolderList;
     private List<TileHolder> commandTileHolderList;
     private List<Entity> entityList;
+
+    private List<Coordinate> destroyPositionList;
+    public List<Coordinate> DestroyPositionList => destroyPositionList;
     public List<Entity> EntityList => entityList;
     private List<Action<Ground>> commandList;
     private int index = 0;
@@ -30,6 +33,7 @@ public class Ground : MonoBehaviour
         tileHolderList = GetComponentsInChildren<TileHolder>().ToList();
         entityList = GetComponentsInChildren<Entity>().ToList();
         mineAndLaserPosition = new Queue<Coordinate>();
+        destroyPositionList = new List<Coordinate>();
     }
 
     public IEnumerator RunScriptRoutine()
@@ -210,10 +214,44 @@ public class Ground : MonoBehaviour
         // Laser 작동 코드
     }
 
-    public void OperateMine()
-    {
+    public void RemoveEntity(Entity entity) => entityList.Remove(entity);
+
+    public void OperateLaser(Coordinate direction) {
+        Coordinate laserPos = mineAndLaserPosition.Dequeue();
+
+        // Laser 작동 코드
+        Coordinate newPos = laserPos + direction;
+        for(int i = 0; i < 20; i++)
+        {
+            destroyPositionList.Add(newPos);
+            newPos += direction;
+        }
+    }
+
+    public void OperateMine() {
         Coordinate minePos = mineAndLaserPosition.Dequeue();
 
-        // 지뢰 작동 코드. 
+        destroyPositionList.Add(minePos);
+        destroyPositionList.Add(minePos + new Coordinate(1, 0));
+        destroyPositionList.Add(minePos + new Coordinate(0, 1));
+        destroyPositionList.Add(minePos + new Coordinate(-1, 0));
+        destroyPositionList.Add(minePos + new Coordinate(0, -1));
+
+    }
+
+    public void DestroyTileHolders()
+    {
+        foreach(var pos in destroyPositionList)
+        {
+            TileManager.Inst.DestroyTile(pos);
+        }
+    }
+
+    public void CheckEntities()
+    {
+        foreach(var entity in entityList)
+        {
+            TileManager.Inst.DestroyEntity(entity);
+        }
     }
 }
