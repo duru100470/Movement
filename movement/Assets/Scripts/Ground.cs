@@ -8,6 +8,7 @@ public class Ground : MonoBehaviour
 {
     private List<TileHolder> tileHolderList;
     public List<TileHolder> TileHolderList => tileHolderList;
+    private List<TileHolder> commandTileHolderList;
     private List<Entity> entityList;
     public List<Entity> EntityList => entityList;
     private List<Action<Ground>> commandList;
@@ -21,6 +22,8 @@ public class Ground : MonoBehaviour
 
     private void Awake()
     {
+        commandList = new List<Action<Ground>>();
+        commandTileHolderList = new List<TileHolder>();
         tileHolderList = GetComponentsInChildren<TileHolder>().ToList();
         entityList = GetComponentsInChildren<Entity>().ToList();
     }
@@ -29,11 +32,11 @@ public class Ground : MonoBehaviour
     {
         while (true)
         {
-            for (int i = index; i < commandList.Count; i++)
+            while (index < commandList.Count)
             {
-                commandList[i](this);
+                Debug.Log(index);
+                commandList[index](this);
                 index++;
-                // 커맨드 실행 중 병합이나 파괴가 일어나면 Script를 새로 갱신해야함
 
                 yield return null;
             }
@@ -43,15 +46,28 @@ public class Ground : MonoBehaviour
 
     public void GenerateScript()
     {
-        commandList = new List<Action<Ground>>();
+        TileHolder curCmdTileHolder = null;
+
+        if (commandTileHolderList.Count > 0)
+            curCmdTileHolder = commandTileHolderList[index % commandTileHolderList.Count];
+
+        commandList.Clear();
+        commandTileHolderList.Clear();
 
         // tileHolderList에서 commandList를 생성
         arrangedTileHolderList = tileHolderList.OrderByDescending(x => x.Pos.Y).ThenBy(x => x.Pos.X).ToList();
 
         foreach (TileHolder tileholder in arrangedTileHolderList)
         {
-            if (tileholder.CurTile != null) commandList.Add(tileholder.CurTile.RunCommand);
+            if (tileholder.CurTile != null && tileholder.CurTile.TileType == TILE_TYPE.COMMAND)
+            {
+                commandTileHolderList.Add(tileholder);
+                commandList.Add(tileholder.CurTile.RunCommand);
+            }
         }
+
+        if (curCmdTileHolder != null)
+            index = commandTileHolderList.IndexOf(curCmdTileHolder);
     }
 
     public int GetPriority()

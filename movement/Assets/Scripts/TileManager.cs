@@ -26,7 +26,6 @@ public class TileManager : SingletonBehavior<TileManager>
     {
         List<TileHolder> tileHolderList = new List<TileHolder>();
 
-        Debug.Log($"{startPos.X} {startPos.Y}");
         GetTileHoldersDFSRecursion(startPos, ref tileHolderList);
 
         return tileHolderList;
