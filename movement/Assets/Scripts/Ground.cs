@@ -47,6 +47,8 @@ public class Ground : MonoBehaviour
                 commandList[index](this, commandTileHolderList[index].Pos);
                 index++;
                 yield return null;
+                commandTileHolderList[index].CurTile.IsRunning = false;
+                index++;
             }
             index = 0;
         }
@@ -54,6 +56,7 @@ public class Ground : MonoBehaviour
 
     public void GenerateScript()
     {
+        /*
         List<TileHolder> lastCmdTileHolderList = new List<TileHolder>();
         foreach (var t in commandTileHolderList)
             lastCmdTileHolderList.Add(t);
@@ -62,7 +65,7 @@ public class Ground : MonoBehaviour
         {
             newIndex = (index - 1) % lastCmdTileHolderList.Count;
         }
-
+        */
         commandList.Clear();
         commandTileHolderList.Clear();
 
@@ -77,6 +80,7 @@ public class Ground : MonoBehaviour
                 commandList.Add(tileholder.CurTile.RunCommand);
             }
         }
+        /*
         bool found = false;
         for(int i = newIndex; i<lastCmdTileHolderList.Count; i++)
         {
@@ -99,6 +103,8 @@ public class Ground : MonoBehaviour
             index = (index + 1) % commandTileHolderList.Count;
             Debug.Log("GOOD!");
         }
+        */
+        index %= commandTileHolderList.Count;
     }
 
     public int GetPriority()
@@ -279,8 +285,6 @@ public class Ground : MonoBehaviour
             var newPos = tileHolder.Pos + pos;
             TileHolder tmp;
             if (!TileManager.Inst.TileHolderDict.TryGetValue(newPos, out tmp)) continue;
-            Debug.Log($"{newPos.X} {newPos.Y}");
-            Debug.Log(tmp);
             if (tmp.GetComponentInParent<Ground>().gameObject != this.gameObject)
             {
                 ret = true;
