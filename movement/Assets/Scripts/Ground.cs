@@ -82,6 +82,7 @@ public class Ground : MonoBehaviour
     public int GetPriority()
     {
         int priority;
+
         if (!hasPower) priority = -100;
         else {
             arrangedPowerList = entityList.Where(entity => entity.EntityType == ENTITY_TYPE.POWER).
@@ -159,8 +160,14 @@ public class Ground : MonoBehaviour
         {
             var ground = tileHolder.GetComponentInParent<Ground>();
             if (this.gameObject != ground.gameObject)
+            {
                 ground.IsDestroyed = true;
-
+                foreach (var entity in ground.entityList) {
+                    entity.gameObject.transform.SetParent(this.gameObject.transform);
+                    entityList.Add(entity);
+                }
+                ground.entityList = new List<Entity>();
+            }
             tileHolder.gameObject.transform.SetParent(this.gameObject.transform);
         }
 
