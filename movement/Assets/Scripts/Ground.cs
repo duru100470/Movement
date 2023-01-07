@@ -44,8 +44,10 @@ public class Ground : MonoBehaviour
 
             while (index < commandList.Count)
             {
+
                 commandList[index](this, commandTileHolderList[index].Pos);
                 index++;
+
                 yield return null;
                 commandTileHolderList[index].CurTile.IsRunning = false;
                 index++;
@@ -56,7 +58,7 @@ public class Ground : MonoBehaviour
 
     public void GenerateScript()
     {
-        /*
+        
         List<TileHolder> lastCmdTileHolderList = new List<TileHolder>();
         foreach (var t in commandTileHolderList)
             lastCmdTileHolderList.Add(t);
@@ -65,7 +67,7 @@ public class Ground : MonoBehaviour
         {
             newIndex = (index - 1) % lastCmdTileHolderList.Count;
         }
-        */
+        
         commandList.Clear();
         commandTileHolderList.Clear();
 
@@ -80,14 +82,14 @@ public class Ground : MonoBehaviour
                 commandList.Add(tileholder.CurTile.RunCommand);
             }
         }
-        /*
+        
         bool found = false;
         for(int i = newIndex; i<lastCmdTileHolderList.Count; i++)
         {
+
             if (lastCmdTileHolderList[i] != null && commandTileHolderList.Contains(lastCmdTileHolderList[i]))
             {
                 index = commandTileHolderList.IndexOf(lastCmdTileHolderList[i]);
-                found = true;
                 break;
             }
         }
@@ -103,8 +105,6 @@ public class Ground : MonoBehaviour
             index = (index + 1) % commandTileHolderList.Count;
             Debug.Log("GOOD!");
         }
-        */
-        index %= commandTileHolderList.Count;
     }
 
     public int GetPriority()
@@ -172,8 +172,7 @@ public class Ground : MonoBehaviour
 
     public virtual void MoveEntity(Coordinate pos)
     {
-        if (CheckCollision(pos)) return;
-
+        // 미완성
         Dictionary<Coordinate, Entity> newEntityDict = new Dictionary<Coordinate, Entity>();
 
         foreach (var entity in entityList)
@@ -237,7 +236,7 @@ public class Ground : MonoBehaviour
         int myIndex = 0;
         foreach(var list in groundList)
         {
-            if (commandTileHolderList.Count > 0 && list.Contains(commandTileHolderList[index%commandTileHolderList.Count]))
+            if (commandTileHolderList.Count != 0 && list.Contains(commandTileHolderList[index%commandTileHolderList.Count]))
             {
                 myIndex = groundList.IndexOf(list);
             }
@@ -255,7 +254,6 @@ public class Ground : MonoBehaviour
                 newGround.tag = "Ground";
                 newGround.AddComponent<Ground>();
                 ground = newGround.GetComponent<Ground>();
-                ground.isMergeable = true;
             }
             foreach(var tileHolder in groundList[i])
             {

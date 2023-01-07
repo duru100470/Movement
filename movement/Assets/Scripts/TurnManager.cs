@@ -63,8 +63,6 @@ public class TurnManager : MonoBehaviour
             groundRoutineList.Remove(groundListBuffer[i]);
             Destroy(groundListBuffer[i].Key.gameObject);
         }
-        
-        //groundRoutineList.OrderByDescending(x => x.Key.GetPriority());
     }
 
     private void GetList()
