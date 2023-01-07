@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5570371052570295264}
   m_Layer: 0
   m_Name: Mine
-  m_TagString: TileHolder
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canPlaceTile: 0
+  holderSprites: []
 --- !u!1001 &2626377616113596192
 PrefabInstance:
   m_ObjectHideFlags: 0

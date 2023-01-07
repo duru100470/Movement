@@ -7,15 +7,17 @@ public abstract class Tile : MonoBehaviour
     [SerializeField]
     private TILE_TYPE tileType;
     public TILE_TYPE TileType => tileType;
+    private bool isRunning;
     public bool IsRunning {
         get
         {
-            return IsRunning;
+            return isRunning;
         }
         set
         {
             GetComponent<SpriteRenderer>().color = 
                 value ? new Color(1f, 1f, 1f, 1f) : new Color(.6f, .6f, .6f, 1f);
+            isRunning = value;
         } 
     }
     public abstract void RunCommand(Ground ground);
