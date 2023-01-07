@@ -6,5 +6,6 @@ public class MineTile : Tile
 {
     public override void RunCommand(Ground ground)
     {
+        ground.OperateMine();
     }
 }
