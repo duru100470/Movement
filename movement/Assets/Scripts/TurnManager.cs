@@ -28,7 +28,7 @@ public class TurnManager : MonoBehaviour
             groundRoutineList.ForEach(kv => { kv.Key.MergeGround(); });
             groundRoutineList.ForEach(kv => { kv.Key.CheckEntities(); });
             RefreshList();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(GameManager.Inst.gameSpeed);
         }
     }
 
@@ -77,7 +77,7 @@ public class TurnManager : MonoBehaviour
             groundRoutineList.Add(new KeyValuePair<Ground, IEnumerator>(ground, ground.RunScriptRoutine()));
         }
 
-        groundRoutineList.OrderBy(x => x.Key.GetPriority());
+        groundRoutineList.OrderByDescending(x => x.Key.GetPriority());
     }
 
     private void Update()

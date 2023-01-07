@@ -3,9 +3,14 @@ using UnityEngine;
 public enum TILE_TYPE
 {
     COMMAND,
-    WALL
+    WALL,
+    MINE_AND_LASER
 }
 
+public enum ENTITY_TYPE 
+{ 
+    POWER
+}
 [System.Serializable]
 public struct Coordinate
 {
