@@ -150,27 +150,18 @@ public class Ground : MonoBehaviour
             newTileHolderDict[tileHolder.Pos] = tileHolder;
         }
 
-        TileManager.Inst.RefreshDict(newTileHolderDict);
+        TileManager.Inst.RefreshTileHolderDict(newTileHolderDict);
     }
 
     public virtual void MoveEntity(Coordinate pos)
     {
- 
-        Dictionary<Coordinate, Entity> newEntityDict = new Dictionary<Coordinate, Entity>();
-
-        foreach (var entity in entityList)
-        {
-            newEntityDict[entity.Pos] = null;
-        }
-
         foreach (var entity in entityList)
         {
             entity.Pos += pos;
             entity.transform.position = Coordinate.CoordinatetoWorldPoint(entity.Pos);
-            newEntityDict[entity.Pos] = entity;
         }
 
-
+        TileManager.Inst.RefreshEntityDict();
     }
 
     public void MergeGround()
@@ -190,7 +181,8 @@ public class Ground : MonoBehaviour
             if (this.gameObject != ground.gameObject)
             {
                 ground.IsDestroyed = true;
-                foreach (var entity in ground.entityList) {
+                foreach (var entity in ground.entityList)
+                {
                     entity.gameObject.transform.SetParent(this.gameObject.transform);
                     entityList.Add(entity);
                 }
@@ -231,24 +223,26 @@ public class Ground : MonoBehaviour
     {
         Coordinate laserPos = mineAndLaserPosition.Dequeue();
 
-        
+
     }
 
     public void RemoveEntity(Entity entity) => entityList.Remove(entity);
 
-    public void OperateLaser(Coordinate direction) {
+    public void OperateLaser(Coordinate direction)
+    {
         Coordinate laserPos = mineAndLaserPosition.Dequeue();
 
         // Laser 작동 코드
         Coordinate newPos = laserPos + direction;
-        for(int i = 0; i < 20; i++)
+        for (int i = 0; i < 20; i++)
         {
             destroyPositionList.Add(newPos);
             newPos += direction;
         }
     }
 
-    public void OperateMine() {
+    public void OperateMine()
+    {
         Coordinate minePos = mineAndLaserPosition.Dequeue();
 
         destroyPositionList.Add(minePos);
@@ -261,7 +255,7 @@ public class Ground : MonoBehaviour
 
     public void DestroyTileHolders()
     {
-        foreach(var pos in destroyPositionList)
+        foreach (var pos in destroyPositionList)
         {
             TileManager.Inst.DestroyTile(pos);
         }
@@ -269,7 +263,19 @@ public class Ground : MonoBehaviour
 
     public void CheckEntities()
     {
-        foreach(var entity in entityList)
+        Debug.Log("Checking");
+        var buffer = new List<Entity>();
+
+        foreach (var entity in entityList)
+        {
+            if (!TileManager.Inst.TileHolderDict.ContainsKey(entity.Pos))
+            {
+                buffer.Add(entity);
+            }
+        }
+
+        Debug.Log(buffer.Count);
+        foreach (var entity in buffer)
         {
             TileManager.Inst.DestroyEntity(entity);
         }
