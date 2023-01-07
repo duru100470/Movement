@@ -9,6 +9,16 @@ public class UIManager : MonoBehaviour
     private List<GameObject> prefabList;
     [SerializeField]
     private GameObject selectedTilePrefab;
+    [SerializeField]
+    private GameObject resetWarningPanel;
+    [SerializeField]
+    private GameObject resetDonePanel;
+    [SerializeField]
+    private GameObject clearPanel;
+    [SerializeField]
+    private PlayerDataManager pdm;
+    [SerializeField]
+    private TurnManager tm;
 
     private int selectedlevel;
     private void Update()
@@ -110,4 +120,38 @@ public class UIManager : MonoBehaviour
         selectedTilePrefab = prefabList[index];
     }
 
+    public void showResetWarning() {
+        resetWarningPanel.SetActive(true);
+    }
+    public void Operate1() {
+        resetWarningPanel.SetActive(false);
+        resetDonePanel.SetActive(true);
+        pdm.ResetData();
+    }
+
+    public void Operate2() {
+        resetWarningPanel.SetActive(false);
+    }
+    public void Operate3() {
+        resetDonePanel.SetActive(false);
+    }
+    public void Operate4() {
+        clearPanel.SetActive(false);
+        SceneManager.LoadScene("LevelSelect");
+    }
+
+    public void Operate5() {
+        clearPanel.SetActive(false);
+        int level = SceneManager.GetActiveScene().buildIndex;
+        if (level < 20) SceneManager.LoadScene(level + 1);
+        else SceneManager.LoadScene("LevelSelect");
+    }
+
+    public void SetSpeed(float speed) {
+        GameManager.Inst.gameSpeed = speed;
+    }
+
+    public void ShowClearPanel() {
+        clearPanel.SetActive(true);
+    }
 }

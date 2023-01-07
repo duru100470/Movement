@@ -49,5 +49,11 @@ public class PlayerDataManager : MonoBehaviour
 
     public void ResetData() {
         PlayerPrefs.SetInt("Progress", 0);
+        progress = 0;
+    }
+
+    public void SetProgress() {
+        progress = SceneManager.GetActiveScene().buildIndex;
+        PlayerPrefs.SetInt("Progress", progress + 1);
     }
 }

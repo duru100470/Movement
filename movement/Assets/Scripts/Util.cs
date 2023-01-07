@@ -4,6 +4,7 @@ public enum TILE_TYPE
 {
     COMMAND,
     WALL,
+    GOAL
 }
 
 public enum ENTITY_TYPE 

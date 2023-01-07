@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canPlaceTile: 0
+  holderSprites: []
 --- !u!1001 &2626377616113596192
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -110,6 +111,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RightTile
       objectReference: {fileID: 0}
+    - target: {fileID: 1651357629296477814, guid: 3eaa73a091c89a34ea889d752bbfded3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6456fe0779073b445a6c71582760b95e, type: 3}
     - target: {fileID: 5164958891239395981, guid: 3eaa73a091c89a34ea889d752bbfded3, type: 3}
       propertyPath: m_RootOrder
       value: 0

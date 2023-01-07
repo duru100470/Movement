@@ -81,7 +81,7 @@ public class Ground : MonoBehaviour
 
         foreach (var tileholder in arrangedTileHolderList)
         {
-            if (tileholder.CurTile != null && tileholder.CurTile.TileType == TILE_TYPE.COMMAND)
+            if (tileholder.CurTile != null && (tileholder.CurTile.TileType == TILE_TYPE.COMMAND || tileholder.CurTile.TileType == TILE_TYPE.GOAL))
             {
                 commandTileHolderList.Add(tileholder);
                 commandList.Add(tileholder.CurTile.RunCommand);
@@ -96,6 +96,7 @@ public class Ground : MonoBehaviour
     {
         int priority;
 
+        hasPower = CheckHasPowerSource();
         if (!hasPower) priority = -100;
         else
         {
@@ -105,7 +106,7 @@ public class Ground : MonoBehaviour
             priority = (arrangedPowerList[0].Pos.Y * 100) - (arrangedPowerList[0].Pos.X);
         }
 
-        Debug.Log($"{this.gameObject.name} => {priority}");
+        //Debug.Log($"{this.gameObject.name} => {priority}");
         return priority;
     }
 
@@ -285,7 +286,7 @@ public class Ground : MonoBehaviour
         GenerateScript();
     }
 
-    private void CheckStageClear()
+    public void CheckStageClear()
     {
         Debug.Log(tileHolderList.Exists(x => x.CurTile != null && x.CurTile.TileType == TILE_TYPE.GOAL));
         Debug.Log(entityList.Exists(x => (x is Power) && (x as Power).IsPlayer));
@@ -330,6 +331,7 @@ public class Ground : MonoBehaviour
 
     public void OperateLaser(Coordinate direction, Coordinate pos)
     {
+        Debug.Log($"Laser Operated at {pos.X},{pos.Y}");
         Coordinate laserPos = pos;
         // Laser 작동 코드
         Coordinate newPos = laserPos + direction;
