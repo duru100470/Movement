@@ -130,6 +130,17 @@ public class Ground : MonoBehaviour
         foreach (var tileHolder in tileHolderList)
         {
             tileHolder.Pos += pos;
+            if (tileHolder.CurTile != null && tileHolder.CurTile.TileType == TILE_TYPE.WALL)
+            {
+                foreach (var entity in entityList)
+                {
+                    if (entity.Pos == tileHolder.Pos)
+                    {
+                        entity.Pos += pos;
+                        entity.transform.position = Coordinate.CoordinatetoWorldPoint(entity.Pos);
+                    }
+                }
+            }
             tileHolder.transform.position = Coordinate.CoordinatetoWorldPoint(tileHolder.Pos);
             newTileHolderDict[tileHolder.Pos] = tileHolder;
         }
