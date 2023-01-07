@@ -26,7 +26,7 @@ public class TurnManager : MonoBehaviour
             DoCurrentTurn();
             groundRoutineList.ForEach(kv => { kv.Key.MergeGround(); });
             RefreshList();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f); // 기획대로라면 슬라이더(or 토글버튼)로 턴 실행 시간을 바꿔야 하기 때문에 이 부분 수정 필요
         }
     }
 
@@ -75,7 +75,7 @@ public class TurnManager : MonoBehaviour
             groundRoutineList.Add(new KeyValuePair<Ground, IEnumerator>(ground, ground.RunScriptRoutine()));
         }
 
-        groundRoutineList.OrderBy(x => x.Key.GetPriority());
+        groundRoutineList.OrderByDescending(x => x.Key.GetPriority());
     }
 
     private void Update()
