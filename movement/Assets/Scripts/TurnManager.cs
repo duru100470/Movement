@@ -52,7 +52,7 @@ public class TurnManager : MonoBehaviour
         foreach (var kv in groundRoutineList)
         {
             // ¿øº»: if (kv.Key.IsDestroyed)
-            if (kv.Key.transform.childCount == 0)
+            if (kv.Key.transform.childCount < 0)
             {
                 groundListBuffer.Add(kv);
             }
