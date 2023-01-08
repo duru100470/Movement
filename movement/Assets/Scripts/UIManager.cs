@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject failPanel;
     [SerializeField]
+    private GameObject creditPanel;
+    [SerializeField]
     private PlayerDataManager pdm;
     [SerializeField]
     private TurnManager tm;
@@ -73,9 +75,6 @@ public class UIManager : MonoBehaviour
 
     public void LoadMainScene() {
         SceneManager.LoadScene("MainMenu");
-    }
-    public void LoadCreditScene() {
-        SceneManager.LoadScene("Credit");
     }
 
     public void LoadStageSelectScene() {
@@ -153,10 +152,7 @@ public class UIManager : MonoBehaviour
         failPanel.SetActive(false);
         SceneManager.LoadScene("LevelSelect");
     }
-    public void Operate7() {
-        failPanel.SetActive(false);
-        //TODO: 레벨 재시작
-    }
+
     
     public void SetSpeed(float speed) {
         GameManager.Inst.gameSpeed = speed;
@@ -168,5 +164,13 @@ public class UIManager : MonoBehaviour
 
     public void ShowFailPanel() {
         failPanel.SetActive(true);
+    }
+
+    public void ShowCreditPanel() {
+        creditPanel.SetActive(true);
+    }
+
+    public void HideCreditPanel() {
+        creditPanel.SetActive(false);
     }
 }
