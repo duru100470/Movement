@@ -16,6 +16,6 @@ public class Level : MonoBehaviour
     }
 
     public void SelectStageFromLevel() {
-        SceneManager.LoadScene(level);
+        SceneManager.LoadScene(level + 1);
     }
 }

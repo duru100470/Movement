@@ -82,7 +82,7 @@ public class UIManager : MonoBehaviour
     }
 
     public void LoadStageScene() {
-        SceneManager.LoadScene(gameObject.GetComponent<Level>().level);
+        SceneManager.LoadScene(gameObject.GetComponent<Level>().level + 1);
     }
     public void SelectUpTile() {
         selectedTilePrefab = prefabList[0];
@@ -115,7 +115,9 @@ public class UIManager : MonoBehaviour
     {
         selectedTilePrefab = prefabList[7];
     }
-
+    public void SelectStopTile() {
+        selectedTilePrefab = prefabList[8];
+    }
     public void SelectTileByIndex(int index)
     {
         selectedTilePrefab = prefabList[index];
@@ -144,7 +146,7 @@ public class UIManager : MonoBehaviour
     public void Operate5() {
         clearPanel.SetActive(false);
         int level = SceneManager.GetActiveScene().buildIndex;
-        if (level < 20) SceneManager.LoadScene(level + 1);
+        if (level < 21) SceneManager.LoadScene(level + 1);
         else SceneManager.LoadScene("LevelSelect");
     }
     public void Operate6()
