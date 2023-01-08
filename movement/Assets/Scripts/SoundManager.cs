@@ -67,6 +67,7 @@ public class SoundManager : SingletonBehavior<SoundManager>
 
     private void OnEnable()
     {
+        DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
