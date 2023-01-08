@@ -43,6 +43,7 @@ public class SoundManager : SingletonBehavior<SoundManager>
         audioSourceToUse.pitch = pitch;
         if (soundName == SOUND_NAME.MAIN_BGM || soundName == SOUND_NAME.LEVEL_BGM || soundName == SOUND_NAME.STAGE_SELECT_BGM)
             audioSourceToUse.loop = true;
+
         audioSourceToUse.Play();
         usingIndexs.Remove(emptyAudioIndex);
     }
@@ -53,6 +54,17 @@ public class SoundManager : SingletonBehavior<SoundManager>
         for (int i = 0; i < audioSources.Count; i++)
         {
             if (audioSources[i].isPlaying && audioSources[i].clip == clip)
+            {
+                audioSources[i].Pause();
+            }
+        }
+    }
+
+    public void PauseAll()
+    {
+        for (int i = 0; i < audioSources.Count; i++)
+        {
+            if (audioSources[i].isPlaying)
             {
                 audioSources[i].Pause();
             }

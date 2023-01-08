@@ -12,7 +12,7 @@ public class PlayerDataManager : MonoBehaviour
     private void Awake()
     {
         // 스테이지 씬에서 스테이지를 클리어할 때 progress를 새로 설정한다
-        progress = PlayerPrefs.GetInt("Progress", 0);
+        progress = 20;
         Debug.Log($"Progress: {progress}");
     }
 

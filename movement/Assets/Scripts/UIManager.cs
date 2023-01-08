@@ -81,6 +81,7 @@ public class UIManager : MonoBehaviour
     }
 
     public void LoadStageSelectScene() {
+        SoundManager.Inst.PauseAll();
         SceneManager.LoadScene("LevelSelect");
     }
 
@@ -190,5 +191,9 @@ public class UIManager : MonoBehaviour
     {
         SoundManager.Inst.ChangeBGM(SOUND_NAME.MAIN_BGM, 0.3f);
         creditPanel.SetActive(false);
+    }
+
+    public void MoveToFirstLevel() {
+        SceneManager.LoadScene("1-1");
     }
 }
