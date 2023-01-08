@@ -53,7 +53,8 @@ public class PlayerDataManager : MonoBehaviour
     }
 
     public void SetProgress() {
+        int curprogress = PlayerPrefs.GetInt("Progress");
         progress = SceneManager.GetActiveScene().buildIndex;
-        PlayerPrefs.SetInt("Progress", progress);
+        PlayerPrefs.SetInt("Progress", Mathf.Max(curprogress, progress));
     }
 }
