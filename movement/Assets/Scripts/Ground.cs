@@ -216,6 +216,7 @@ public class Ground : MonoBehaviour
         var endList = new List<TileHolder>();
         var groundList = new List<List<TileHolder>>();
         List<List<Entity>> entityListBuffer = new List<List<Entity>>();
+        int newIndex = 0;
         for (int i = 0; i < tileHolderList.Count; i++)
         {
             if (tileHolderList[i].gameObject == null || endList.Contains(tileHolderList[i])) continue;
@@ -245,8 +246,10 @@ public class Ground : MonoBehaviour
                         entityResult.Add(entity);
                     }
                 }
-                groundList[i].Add(tileHolder);
+                groundList[newIndex].Add(tileHolder);
             }
+
+            newIndex++;
             entityListBuffer.Add(entityResult);
         }
 
@@ -402,6 +405,7 @@ public class Ground : MonoBehaviour
             if (newIndex >= 0)
             {
                 commandTileHolderList.Remove(tileHolder);
+
                 Debug.Log("DESTROY!");
                 commandList.Remove(commandList[newIndex]);
             }
