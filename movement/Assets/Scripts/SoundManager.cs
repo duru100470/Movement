@@ -103,7 +103,7 @@ public class SoundManager : SingletonBehavior<SoundManager>
         }
     }
 
-    private void OnDisabled()
+    private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }

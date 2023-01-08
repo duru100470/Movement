@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
         if (!TileManager.Inst.TileHolderDict.TryGetValue(pos, out target)) return;
         if (!target.CanPlaceTile || target.CurTile != null) return;
 
-        SoundManager.Inst.PlayEffectSound(SOUND_NAME.EQUIP_SOUND, 1f, 1f);
+        //SoundManager.Inst.PlayEffectSound(SOUND_NAME.EQUIP_SOUND, 1f, 1f);
 
         var obj = Instantiate(selectedTilePrefab);
         obj.transform.parent = target.transform;
