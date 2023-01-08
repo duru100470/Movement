@@ -97,7 +97,6 @@ public class TileManager : SingletonBehavior<TileManager>
         if (!tileHolderDict.ContainsKey(pos)) return null;
 
         TileHolder tileHolder = TileHolderDict[pos];
-        Destroy(tileHolderDict[pos].gameObject);
         tileHolderDict.Remove(pos);
         
         return tileHolder;

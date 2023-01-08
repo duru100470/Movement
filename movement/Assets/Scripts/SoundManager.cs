@@ -12,6 +12,11 @@ public class SoundManager : SingletonBehavior<SoundManager>
     [SerializeField]
     private List<AudioClip> clipList;
 
+    void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     public void PlayEffectSound(SOUND_NAME soundName, float volume = 1f, float pitch = 1f)
     {
         int emptyAudioIndex = -1;
@@ -36,6 +41,8 @@ public class SoundManager : SingletonBehavior<SoundManager>
         audioSourceToUse.clip = clipList[(int)soundName];
         audioSourceToUse.volume = volume;
         audioSourceToUse.pitch = pitch;
+        if (soundName == SOUND_NAME.MAIN_BGM || soundName == SOUND_NAME.LEVEL_BGM || soundName == SOUND_NAME.STAGE_SELECT_BGM)
+            audioSourceToUse.loop = true;
         audioSourceToUse.Play();
         usingIndexs.Remove(emptyAudioIndex);
     }
@@ -77,13 +84,20 @@ public class SoundManager : SingletonBehavior<SoundManager>
         //main: 23, Stage Select: 24, Stage: 0~20
         switch (Scenenumber) {
             case 23:
-                PlayEffectSound(SOUND_NAME.MAIN_BGM, 1f, 1f);
+
+                PauseBGM(SOUND_NAME.STAGE_SELECT_BGM);
+                PlayEffectSound(SOUND_NAME.MAIN_BGM, 0.3f, 1f);
                 break;
             case 24:
+
+                PauseBGM(SOUND_NAME.LEVEL_BGM);
+                PauseBGM(SOUND_NAME.MAIN_BGM);
                 PlayEffectSound(SOUND_NAME.STAGE_SELECT_BGM, 1f, 1f);
                 break;
             default:
-                PlayEffectSound(SOUND_NAME.LEVEL_BGM, 1f, 1f);
+                PauseBGM(SOUND_NAME.STAGE_SELECT_BGM);
+                PauseBGM(SOUND_NAME.MAIN_BGM);
+                PlayEffectSound(SOUND_NAME.LEVEL_BGM, 0.5f, 1f);
                 break;
         }
     }

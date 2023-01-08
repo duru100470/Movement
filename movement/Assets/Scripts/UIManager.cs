@@ -57,6 +57,8 @@ public class UIManager : MonoBehaviour
         if (!TileManager.Inst.TileHolderDict.TryGetValue(pos, out target)) return;
         if (!target.CanPlaceTile || target.CurTile != null) return;
 
+        SoundManager.Inst.PlayEffectSound(SOUND_NAME.EQUIP_SOUND, 1f, 1f);
+
         var obj = Instantiate(selectedTilePrefab);
         obj.transform.parent = target.transform;
         obj.transform.position = obj.transform.parent.position + new Vector3(0,0,-1);
@@ -70,6 +72,7 @@ public class UIManager : MonoBehaviour
         if (!TileManager.Inst.TileHolderDict.TryGetValue(pos, out target)) return;
         if (!target.CanPlaceTile || target.CurTile == null) return;
 
+        SoundManager.Inst.PlayEffectSound(SOUND_NAME.BREAK_SOUND, 1f, 1f);
         Destroy(target.CurTile.gameObject);
     }
 
@@ -122,6 +125,7 @@ public class UIManager : MonoBehaviour
     }
 
     public void showResetWarning() {
+        SoundManager.Inst.ChangeBGM(SOUND_NAME.MAIN_BGM, 0.15f);
         resetWarningPanel.SetActive(true);
     }
     public void Operate1() {
@@ -130,10 +134,13 @@ public class UIManager : MonoBehaviour
         pdm.ResetData();
     }
 
-    public void Operate2() {
+    public void Operate2()
+    {
+        SoundManager.Inst.ChangeBGM(SOUND_NAME.MAIN_BGM, 0.3f);
         resetWarningPanel.SetActive(false);
     }
     public void Operate3() {
+        SoundManager.Inst.ChangeBGM(SOUND_NAME.MAIN_BGM, 0.3f);
         resetDonePanel.SetActive(false);
     }
     public void Operate4() {
@@ -154,23 +161,32 @@ public class UIManager : MonoBehaviour
     }
 
     
-    public void SetSpeed(float speed) {
+    public void SetSpeed(float speed)
+    {
+        SoundManager.Inst.PlayEffectSound(SOUND_NAME.CHECK_SOUND, 1f, 2f);
         GameManager.Inst.gameSpeed = speed;
     }
 
     public void ShowClearPanel() {
+        SoundManager.Inst.PauseBGM(SOUND_NAME.LEVEL_BGM);
         clearPanel.SetActive(true);
     }
 
-    public void ShowFailPanel() {
+    public void ShowFailPanel()
+    {
+        SoundManager.Inst.PauseBGM(SOUND_NAME.LEVEL_BGM);
         failPanel.SetActive(true);
     }
 
-    public void ShowCreditPanel() {
+    public void ShowCreditPanel()
+    {
+        SoundManager.Inst.ChangeBGM(SOUND_NAME.MAIN_BGM, 0.15f);
         creditPanel.SetActive(true);
     }
 
-    public void HideCreditPanel() {
+    public void HideCreditPanel()
+    {
+        SoundManager.Inst.ChangeBGM(SOUND_NAME.MAIN_BGM, 0.3f);
         creditPanel.SetActive(false);
     }
 }

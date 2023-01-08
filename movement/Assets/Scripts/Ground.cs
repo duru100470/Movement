@@ -49,7 +49,6 @@ public class Ground : MonoBehaviour
                 Debug.Log(index);
                 commandList[index](this, commandTileHolderList[index].Pos);
                 commandTileHolderList[index].CurTile.IsRunning = true;
-                //commandList[index](this, commandTileHolderList[index].Pos);
 
                 yield return null;
                 if (commandList.Count == 0) yield break;
@@ -91,7 +90,14 @@ public class Ground : MonoBehaviour
 
         if (curCmdTileHolder != null)
             index = commandTileHolderList.IndexOf(curCmdTileHolder);
+
+        if(commandTileHolderList.Count > 0 && index >= commandTileHolderList.Count)
+        {
+            index %= commandTileHolderList.Count;
+            Debug.Log(commandTileHolderList[index] == null);
+        }
     }
+
 
     public int GetPriority()
     {
@@ -124,6 +130,7 @@ public class Ground : MonoBehaviour
     {
         if (CheckCollision(pos)) return;
 
+        SoundManager.Inst.PlayEffectSound(SOUND_NAME.CHECK_SOUND, 1f, 1f);
         Dictionary<Coordinate, TileHolder> newTileHolderDict = new Dictionary<Coordinate, TileHolder>();
 
         foreach (var tileHolder in tileHolderList)
@@ -247,9 +254,10 @@ public class Ground : MonoBehaviour
         tileHolderList = new List<TileHolder>();
         entityList = new List<Entity>();
         int myIndex = 0;
+
         foreach (var list in groundList)
         {
-            if (commandTileHolderList.Count != 0 && list.Contains(commandTileHolderList[index % commandTileHolderList.Count]))
+            if (commandTileHolderList.Count > 0 && list.Contains(commandTileHolderList[(index % commandTileHolderList.Count)]))
             {
                 myIndex = groundList.IndexOf(list);
             }
@@ -282,6 +290,7 @@ public class Ground : MonoBehaviour
             }
         }
 
+
         hasPower = true;
         GenerateScript();
     }
@@ -294,6 +303,7 @@ public class Ground : MonoBehaviour
         if (tileHolderList.Exists(x => x.CurTile != null && x.CurTile.TileType == TILE_TYPE.GOAL) &&
             entityList.Exists(x => (x is Power) && (x as Power).IsPlayer))
         {
+            SoundManager.Inst.PlayEffectSound(SOUND_NAME.CLEAR_SOUND, 1f, 1f);
             GameManager.Inst.ClearStage();
         }
     }
@@ -331,6 +341,7 @@ public class Ground : MonoBehaviour
 
     public void OperateLaser(Coordinate direction, Coordinate pos)
     {
+        SoundManager.Inst.PlayEffectSound(SOUND_NAME.LASER_SOUND, 1f, 1f);
         Debug.Log($"Laser Operated at {pos.X},{pos.Y}");
         Coordinate laserPos = pos;
         // Laser 작동 코드
@@ -344,6 +355,7 @@ public class Ground : MonoBehaviour
 
     public void OperateMine(Coordinate pos)
     {
+        SoundManager.Inst.PlayEffectSound(SOUND_NAME.BREAK_SOUND, 1f, 1f);
         Coordinate minePos = pos;
 
         destroyPositionList.Add(minePos);
@@ -365,6 +377,8 @@ public class Ground : MonoBehaviour
 
     public void DestroyTileHolders() {
         List<TileHolder> newList = new List<TileHolder>();
+        Debug.Log("total: " + tileHolderList.Count);
+        Debug.Log("To DESTROY: " + destroyPositionList.Count);
         foreach (var pos in destroyPositionList)
         {
             TileHolder tileHolder = TileManager.Inst.DestroyTile(pos);
@@ -373,11 +387,32 @@ public class Ground : MonoBehaviour
                 newList.Add(tileHolder);
             }
         }
+        Debug.Log("DESTROY: " + newList.Count);
+        if (newList.Count > 0)
+        {
+            SoundManager.Inst.PlayEffectSound(SOUND_NAME.BREAK_SOUND, 1f, 1f);
+        }
         foreach (var tileHolder in newList)
         {
+            int newIndex = -1;
+            if (commandTileHolderList.Contains(tileHolder))
+            {
+                newIndex = commandTileHolderList.IndexOf(tileHolder);
+            }
+            Debug.Log(tileHolder.gameObject.name);
+            if(newIndex >= 0)
+            {
+                commandTileHolderList.Remove(tileHolder);
+                commandList.Remove(commandList[newIndex]);
+            }
+            Debug.Log("DESTROY!");
             RemoveTileHolder(tileHolder);
-        }
+            Debug.Log("DESTROY!");
+            Destroy(tileHolder.gameObject);
 
+            Debug.Log("DESTROY!");
+        }
+        GenerateScript();
     }
 
     public void CheckEntities()
@@ -390,6 +425,10 @@ public class Ground : MonoBehaviour
             {
                 buffer.Add(entity);
             }
+        }
+        if(buffer.Count > 0)
+        {
+            SoundManager.Inst.PlayEffectSound(SOUND_NAME.FALLING_SOUND, 0.5f, 2f);
         }
 
         foreach (var entity in buffer)
