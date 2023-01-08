@@ -245,7 +245,6 @@ public class Ground : MonoBehaviour
                         entityResult.Add(entity);
                     }
                 }
-
                 groundList[i].Add(tileHolder);
             }
             entityListBuffer.Add(entityResult);
@@ -400,18 +399,19 @@ public class Ground : MonoBehaviour
                 newIndex = commandTileHolderList.IndexOf(tileHolder);
             }
             Debug.Log(tileHolder.gameObject.name);
-            if(newIndex >= 0)
+            if (newIndex >= 0)
             {
                 commandTileHolderList.Remove(tileHolder);
+                Debug.Log("DESTROY!");
                 commandList.Remove(commandList[newIndex]);
             }
-            Debug.Log("DESTROY!");
             RemoveTileHolder(tileHolder);
             Debug.Log("DESTROY!");
             Destroy(tileHolder.gameObject);
 
             Debug.Log("DESTROY!");
         }
+        destroyPositionList = new List<Coordinate>();
         GenerateScript();
     }
 
