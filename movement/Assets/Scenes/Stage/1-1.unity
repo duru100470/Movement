@@ -519,6 +519,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7583826971430909331, guid: be0c771e5c8a9694ba81776572147265, type: 3}
+      propertyPath: canPlaceTile
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be0c771e5c8a9694ba81776572147265, type: 3}
 --- !u!1 &1386886531
@@ -727,8 +731,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playing: 0
-  gameSpeed: 0.25
+  gameSpeed: 0.5
   bg: {fileID: 415150955}
+  exp_prefab: {fileID: 0}
+  laser_prefab: {fileID: 0}
 --- !u!4 &1647555265
 Transform:
   m_ObjectHideFlags: 0
@@ -797,6 +803,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7583826971430909329, guid: be0c771e5c8a9694ba81776572147265, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7583826971430909331, guid: be0c771e5c8a9694ba81776572147265, type: 3}
+      propertyPath: canPlaceTile
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1142,6 +1152,65 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 313813537}
+    - target: {fileID: 2259897265582343020, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458998812749913201, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458998812749913201, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458998812749913201, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458998812749913201, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458998812749913201, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458998812749913201, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185351805290927158, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_text
+      value: 'Stage 1-1: Select, Attach, and Move!
+
+        Tips: You can attach
+        tiles on the white block with left mouse button'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185351805290927158, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_fontSize
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185351805290927158, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185351805290927158, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_lineSpacing
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185351805290927158, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_characterSpacing
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185351805290927158, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185351805290927158, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 7698248576886676791, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

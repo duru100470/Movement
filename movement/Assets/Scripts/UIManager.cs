@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -23,6 +24,12 @@ public class UIManager : MonoBehaviour
     private PlayerDataManager pdm;
     [SerializeField]
     private TurnManager tm;
+    [SerializeField]
+    private GameObject normalBtn;
+    [SerializeField]
+    private GameObject fastBtn;
+    [SerializeField]
+    private GameObject fastestBtn;
 
     private int selectedlevel;
     private void Update()
@@ -54,10 +61,11 @@ public class UIManager : MonoBehaviour
     {
         TileHolder target;
 
+        if (GameManager.Inst.playing) return;
         if (!TileManager.Inst.TileHolderDict.TryGetValue(pos, out target)) return;
         if (!target.CanPlaceTile || target.CurTile != null) return;
 
-        //SoundManager.Inst.PlayEffectSound(SOUND_NAME.EQUIP_SOUND, 1f, 1f);
+        SoundManager.Inst.PlayEffectSound(SOUND_NAME.EQUIP_SOUND, 1f, 1f);
 
         var obj = Instantiate(selectedTilePrefab);
         obj.transform.parent = target.transform;
@@ -69,8 +77,14 @@ public class UIManager : MonoBehaviour
     {
         TileHolder target;
 
+        if (GameManager.Inst.playing) return;
         if (!TileManager.Inst.TileHolderDict.TryGetValue(pos, out target)) return;
         if (!target.CanPlaceTile || target.CurTile == null) return;
+
+        if (target.CanPlaceTile)
+        {
+            Debug.Log("shit");
+        }
 
         SoundManager.Inst.PlayEffectSound(SOUND_NAME.BREAK_SOUND, 1f, 1f);
         Destroy(target.CurTile.gameObject);
@@ -166,6 +180,27 @@ public class UIManager : MonoBehaviour
     
     public void SetSpeed(float speed)
     {
+        normalBtn = GameObject.Find("NormalSpeedButton");
+        fastBtn = GameObject.Find("FastSpeedButton");
+        fastestBtn = GameObject.Find("FastestSpeedButton");
+        if (speed == 1f)
+        {
+            normalBtn.GetComponent<Image>().color = Color.gray;
+            fastBtn.GetComponent<Image>().color = Color.white;
+            fastestBtn.GetComponent<Image>().color = Color.white;
+        }
+        else if(speed == 0.5f)
+        {
+            fastBtn.GetComponent<Image>().color = Color.gray;
+            fastestBtn.GetComponent<Image>().color = Color.white;
+            normalBtn.GetComponent<Image>().color = Color.white;
+        }
+        else if(speed == 0.25f)
+        {
+            fastestBtn.GetComponent<Image>().color = Color.gray;
+            normalBtn.GetComponent<Image>().color = Color.white;
+            fastBtn.GetComponent<Image>().color = Color.white;
+        }
         SoundManager.Inst.PlayEffectSound(SOUND_NAME.CHECK_SOUND, 1f, 2f);
         GameManager.Inst.gameSpeed = speed;
     }
@@ -178,6 +213,8 @@ public class UIManager : MonoBehaviour
     public void ShowFailPanel()
     {
         SoundManager.Inst.PauseBGM(SOUND_NAME.LEVEL_BGM);
+        SoundManager.Inst.PauseAll();
+        SoundManager.Inst.PlayEffectSound(SOUND_NAME.FAILED_SOUND, 1f);
         failPanel.SetActive(true);
     }
 

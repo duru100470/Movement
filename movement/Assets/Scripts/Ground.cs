@@ -40,18 +40,26 @@ public class Ground : MonoBehaviour
     {
         while (true)
         {
-            if (commandList.Count == 0) yield break;
+            //if (commandList.Count == 0) yield break;
+            if (commandList.Count == 0)
+            {
+                yield return new WaitUntil(() => commandList.Count > 0);
+            }
 
             while (index < commandList.Count)
             {
-                if (commandList.Count == 0) yield break;
+                //if (commandList.Count == 0) yield break;
 
                 Debug.Log(index);
                 commandList[index](this, commandTileHolderList[index].Pos);
                 commandTileHolderList[index].CurTile.IsRunning = true;
 
                 yield return null;
-                if (commandList.Count == 0) yield break;
+                //if (commandList.Count == 0) yield break;
+                if (commandList.Count == 0)
+                {
+                    yield return new WaitUntil(() => commandList.Count > 0);
+                }
                 commandTileHolderList[index].CurTile.IsRunning = false;
 
                 for (int i = highlightCancelationBuffer.Count - 1; i >= 0; i--)
@@ -277,6 +285,7 @@ public class Ground : MonoBehaviour
                 newGround.tag = "Ground";
                 newGround.AddComponent<Ground>();
                 ground = newGround.GetComponent<Ground>();
+                ground.isMergeable = true;
             }
             foreach (var tileHolder in groundList[i])
             {
@@ -305,6 +314,7 @@ public class Ground : MonoBehaviour
         if (tileHolderList.Exists(x => x.CurTile != null && x.CurTile.TileType == TILE_TYPE.GOAL) &&
             entityList.Exists(x => (x is Power) && (x as Power).IsPlayer))
         {
+            SoundManager.Inst.PauseAll();
             SoundManager.Inst.PlayEffectSound(SOUND_NAME.CLEAR_SOUND, 1f, 1f);
             GameManager.Inst.ClearStage();
         }
@@ -343,16 +353,22 @@ public class Ground : MonoBehaviour
 
     public void OperateLaser(Coordinate direction, Coordinate pos)
     {
-        SoundManager.Inst.PlayEffectSound(SOUND_NAME.LASER_SOUND, 1f, 1f);
+        SoundManager.Inst.PlayEffectSound(SOUND_NAME.LASER_SOUND, 0.2f, 1f);
         Debug.Log($"Laser Operated at {pos.X},{pos.Y}");
         Coordinate laserPos = pos;
         // Laser 작동 코드
         Coordinate newPos = laserPos + direction;
-        for (int i = 0; i < 20; i++)
+        Coordinate summonPos = laserPos;
+        for (int i = 0; i < 24; i++)
         {
             destroyPositionList.Add(newPos);
             newPos += direction;
+            if(i == 11)
+            {
+                summonPos = newPos;
+            }
         }
+        TileManager.Inst.laser_shoot(summonPos, direction);
     }
 
     public void OperateMine(Coordinate pos)
@@ -411,6 +427,9 @@ public class Ground : MonoBehaviour
             }
             RemoveTileHolder(tileHolder);
             Debug.Log("DESTROY!");
+
+            TileManager.Inst.mineExplode(tileHolder.transform.position);
+            
             Destroy(tileHolder.gameObject);
 
             Debug.Log("DESTROY!");
@@ -432,7 +451,7 @@ public class Ground : MonoBehaviour
         }
         if(buffer.Count > 0)
         {
-            SoundManager.Inst.PlayEffectSound(SOUND_NAME.FALLING_SOUND, 0.5f, 2f);
+            SoundManager.Inst.PlayEffectSound(SOUND_NAME.FALLING_SOUND, 0.25f, 3f);
         }
 
         foreach (var entity in buffer)
@@ -440,4 +459,6 @@ public class Ground : MonoBehaviour
             if (TileManager.Inst.DestroyEntity(entity)) RemoveEntity(entity);
         }
     }
+
+    
 }

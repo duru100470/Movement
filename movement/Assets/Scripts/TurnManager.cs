@@ -10,8 +10,12 @@ public class TurnManager : MonoBehaviour
 
     public void StartRoutine()
     {
-        GetList();
-        StartCoroutine(TurnRoutine());
+        if (!GameManager.Inst.playing)
+        {
+            GameManager.Inst.playing = true;
+            GetList();
+            StartCoroutine(TurnRoutine());
+        }
     }
 
     public void StopRoutine()
@@ -85,9 +89,6 @@ public class TurnManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartRoutine();
-        }
+
     }
 }

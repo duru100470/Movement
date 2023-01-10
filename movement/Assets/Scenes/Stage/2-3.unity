@@ -295,7 +295,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -789,6 +789,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7583826971430909331, guid: be0c771e5c8a9694ba81776572147265, type: 3}
+      propertyPath: canPlaceTile
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be0c771e5c8a9694ba81776572147265, type: 3}
 --- !u!1001 &1260754416
@@ -1086,6 +1090,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7185351805290927158, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_text
+      value: 'Stage 2-3: Seat Belt
+
+        Tips: Wall prevents from falling'
+      objectReference: {fileID: 0}
     - target: {fileID: 8710816986984597963, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -1249,7 +1259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playing: 0
-  gameSpeed: 0.25
+  gameSpeed: 0.5
   bg: {fileID: 601582388}
 --- !u!4 &1576696824
 Transform:

@@ -5,12 +5,16 @@ using UnityEngine;
 public class GameManager : SingletonBehavior<GameManager>
 {
     public bool playing;
-    public float gameSpeed = 1f;
+    public float gameSpeed = 2f;
     public TurnManager turnManager { get; set; }
     public UIManager uiManager { get; set; }
     public PlayerDataManager playerDataManager { get; set; }
 
     public GameObject bg;
+
+    public GameObject exp_prefab;
+    public GameObject laser_prefab;
+
     public void ClearStage()
     {
         Debug.Log("STAGE CLEAR");
@@ -28,9 +32,12 @@ public class GameManager : SingletonBehavior<GameManager>
     }
     private void Start()
     {
-        playing = true;
+        playing = false;
         playerDataManager = FindObjectOfType<PlayerDataManager>().GetComponent<PlayerDataManager>();
         uiManager = FindObjectOfType<UIManager>().GetComponent<UIManager>();
         turnManager = FindObjectOfType<TurnManager>().GetComponent<TurnManager>();
+
+        exp_prefab = Resources.Load("Explosion") as GameObject;
+        laser_prefab = Resources.Load("Laser") as GameObject;
     }
 }

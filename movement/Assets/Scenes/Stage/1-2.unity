@@ -405,7 +405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playing: 0
-  gameSpeed: 0.25
+  gameSpeed: 0.5
   bg: {fileID: 1651702503}
 --- !u!4 &492330022
 Transform:
@@ -526,6 +526,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7583826971430909329, guid: be0c771e5c8a9694ba81776572147265, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7583826971430909331, guid: be0c771e5c8a9694ba81776572147265, type: 3}
+      propertyPath: canPlaceTile
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -795,6 +799,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3810211551608041999, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185351805290927158, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_text
+      value: 'Stage 1-2: Diagonal Movement
+
+        Tips: Operation order - top left
+        -> bottom right'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185351805290927158, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}
+      propertyPath: m_fontStyle
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8710816986984597963, guid: 1340b4f20dd46014fbd2ebd9436940d7, type: 3}

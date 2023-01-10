@@ -116,11 +116,63 @@ public class TileManager : SingletonBehavior<TileManager>
         if (pos == null) return false;
         if (!tileHolderDict.ContainsKey(pos))
         {
-            Destroy(entity.gameObject);
+            //Destroy(entity.gameObject);
+            StartCoroutine(destroyEntitycont(entity));
             return true;
         }
         return false;
     } // ¹Ù²Û DestroyEntity
+
+    public IEnumerator destroyEntitycont(Entity entity)
+    {
+        for(int i=0; i<50; i++)
+        {
+            entity.gameObject.transform.localScale *= 0.95f;
+            yield return new WaitForSeconds(0.02f);
+        }
+        Destroy(entity.gameObject);
+        yield break;
+    }
+
+    public void mineExplode(Vector2 position)
+    {
+        StartCoroutine(Explode_effect(position));
+    }
+
+    public void laser_shoot(Coordinate pos, Coordinate dir)
+    {
+        StartCoroutine(Laser_Effect(pos, dir));
+    }
+
+    public IEnumerator Explode_effect(Vector2 position)
+    {
+        GameObject exp_prefab = GameManager.Inst.exp_prefab;
+        GameObject new_exp = Instantiate(exp_prefab);
+        new_exp.transform.position = position;
+        new_exp.GetComponent<ParticleSystem>().Play();
+        yield return new WaitForSeconds(2f);
+        Destroy(new_exp);
+        yield break;
+    }
+
+    public IEnumerator Laser_Effect(Coordinate pos, Coordinate dir)
+    {
+        GameObject laser_prefab = GameManager.Inst.laser_prefab;
+        GameObject new_laser = Instantiate(laser_prefab);
+        new_laser.transform.position = new Vector2(pos.X + 0.5f, pos.Y + 0.5f);
+        int rotation_num = 0;
+        if (dir.X == -1)
+            rotation_num = 3;
+        else if (dir.X == 1)
+            rotation_num = 1;
+        else if (dir.Y == 1)
+            rotation_num = 2;
+
+        new_laser.transform.Rotate(new Vector3(0, 0, 90 * rotation_num));
+        yield return new WaitForSeconds(0.05f);
+        Destroy(new_laser);
+        yield break;
+    }
 
     public void RefreshTileHolderDict(Dictionary<Coordinate, TileHolder> newDict)
     {

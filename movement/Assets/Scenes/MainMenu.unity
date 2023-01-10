@@ -155,6 +155,8 @@ MonoBehaviour:
   playing: 0
   gameSpeed: 1
   bg: {fileID: 0}
+  exp_prefab: {fileID: 0}
+  laser_prefab: {fileID: 0}
 --- !u!4 &10455265
 Transform:
   m_ObjectHideFlags: 0
@@ -871,6 +873,9 @@ MonoBehaviour:
   creditPanel: {fileID: 1511378046}
   pdm: {fileID: 1439196071}
   tm: {fileID: 0}
+  normalBtn: {fileID: 0}
+  fastBtn: {fileID: 0}
+  fastestBtn: {fileID: 0}
 --- !u!4 &576333216
 Transform:
   m_ObjectHideFlags: 0
@@ -1964,7 +1969,7 @@ MonoBehaviour:
   clipList:
   - {fileID: 8300000, guid: 5ffa6ef7d16c04f48b4931525f410739, type: 3}
   - {fileID: 8300000, guid: c3ca4dc7b39b1af41a9df81a695766d6, type: 3}
-  - {fileID: 8300000, guid: a69c9ad8c625de241a15c7db78382e88, type: 3}
+  - {fileID: 8300000, guid: 05baeb479fc3e3a42baac8930fa9caa0, type: 3}
   - {fileID: 8300000, guid: 1350351ed99cdf040856bf0589cd1e49, type: 3}
   - {fileID: 8300000, guid: 2fbc59729fd68d343835944b4ef74810, type: 3}
   - {fileID: 8300000, guid: 896ea91a814120e42ad38179e62c307b, type: 3}

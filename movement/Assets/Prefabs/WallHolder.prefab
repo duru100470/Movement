@@ -99,7 +99,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canPlaceTile: 0
-  holderSprites: []
+  holderSprites:
+  - {fileID: 21300000, guid: ed27211894d1eec4493f7f7ad31e87c8, type: 3}
+  - {fileID: 21300000, guid: ed27211894d1eec4493f7f7ad31e87c8, type: 3}
 --- !u!1001 &4492642981238163925
 PrefabInstance:
   m_ObjectHideFlags: 0

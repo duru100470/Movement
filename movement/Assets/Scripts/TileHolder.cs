@@ -20,8 +20,8 @@ public class TileHolder : MonoBehaviour
         if (GetComponentInChildren<Tile>() != null) CurTile = GetComponentInChildren<Tile>();
         Pos = Coordinate.WorldPointToCoordinate(transform.position);
 
-        this.GetComponent<SpriteRenderer>().sprite =
-            canPlaceTile ? holderSprites[0] : holderSprites[1]; 
+        if(GetComponent<SpriteRenderer>() != null)
+            this.GetComponent<SpriteRenderer>().sprite = canPlaceTile ? holderSprites[0] : holderSprites[1]; 
 
         if (CurTile == null) return;
         CurTile.GetComponent<SpriteRenderer>().color = 

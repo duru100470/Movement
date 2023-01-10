@@ -19,6 +19,7 @@ public class SoundManager : SingletonBehavior<SoundManager>
 
     public void PlayEffectSound(SOUND_NAME soundName, float volume = 1f, float pitch = 1f)
     {
+        StopBGM(soundName);
         int emptyAudioIndex = -1;
         for (int i = 0; i < audioSources.Count; ++i)
         {
@@ -43,6 +44,10 @@ public class SoundManager : SingletonBehavior<SoundManager>
         audioSourceToUse.pitch = pitch;
         if (soundName == SOUND_NAME.MAIN_BGM || soundName == SOUND_NAME.LEVEL_BGM || soundName == SOUND_NAME.STAGE_SELECT_BGM)
             audioSourceToUse.loop = true;
+        else
+        {
+            audioSourceToUse.loop = false;
+        }
 
         audioSourceToUse.Play();
         usingIndexs.Remove(emptyAudioIndex);
@@ -67,6 +72,18 @@ public class SoundManager : SingletonBehavior<SoundManager>
             if (audioSources[i].isPlaying)
             {
                 audioSources[i].Pause();
+            }
+        }
+    }
+
+    public void StopBGM(SOUND_NAME soundName)
+    {
+        AudioClip clip = clipList[(int)soundName];
+        for (int i = 0; i < audioSources.Count; i++)
+        {
+            if (audioSources[i].isPlaying && audioSources[i].clip == clip)
+            {
+                audioSources[i].Stop();
             }
         }
     }
@@ -96,21 +113,17 @@ public class SoundManager : SingletonBehavior<SoundManager>
         Debug.Log(Scenenumber);
         //main: 23, Stage Select: 24, Stage: 0~20
         switch (Scenenumber) {
-            case 23:
-
-                PauseBGM(SOUND_NAME.STAGE_SELECT_BGM);
+            case 0:
+                PauseAll();
                 PlayEffectSound(SOUND_NAME.MAIN_BGM, 0.3f, 1f);
                 break;
             case 24:
-
-                PauseBGM(SOUND_NAME.LEVEL_BGM);
-                PauseBGM(SOUND_NAME.MAIN_BGM);
+                PauseAll();
                 PlayEffectSound(SOUND_NAME.STAGE_SELECT_BGM, 1f, 1f);
                 break;
             default:
-                PauseBGM(SOUND_NAME.STAGE_SELECT_BGM);
-                PauseBGM(SOUND_NAME.MAIN_BGM);
-                PlayEffectSound(SOUND_NAME.LEVEL_BGM, 0.5f, 1f);
+                PauseAll();
+                PlayEffectSound(SOUND_NAME.LEVEL_BGM, 0.3f, 1f);
                 break;
         }
     }
