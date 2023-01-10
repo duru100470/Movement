@@ -60,7 +60,8 @@ public class Ground : MonoBehaviour
                 {
                     yield return new WaitUntil(() => commandList.Count > 0);
                 }
-                commandTileHolderList[index].CurTile.IsRunning = false;
+                if(index < commandTileHolderList.Count)
+                    commandTileHolderList[index].CurTile.IsRunning = false;
 
                 for (int i = highlightCancelationBuffer.Count - 1; i >= 0; i--)
                 {
